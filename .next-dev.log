@@ -1,0 +1,554 @@
+
+> alp-abata-donation-platform@0.1.0 dev
+> next dev -p 3000
+
+   ▲ Next.js 15.5.18
+   - Local:        http://localhost:3000
+   - Network:      http://192.168.100.9:3000
+
+ ✓ Starting...
+ ✓ Ready in 1839ms
+ ○ Compiling / ...
+ ✓ Compiled / in 2.7s (675 modules)
+prisma:error 
+Invalid `prisma.campaign.findMany()` invocation:
+
+
+error: Environment variable not found: DATABASE_URL.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+prisma:error 
+Invalid `prisma.donation.findMany()` invocation:
+
+
+error: Environment variable not found: DATABASE_URL.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+prisma:error 
+Invalid `prisma.report.findMany()` invocation:
+
+
+error: Environment variable not found: DATABASE_URL.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+ GET / 200 in 3579ms
+ ○ Compiling /donate ...
+ ✓ Compiled /donate in 842ms (745 modules)
+prisma:error 
+Invalid `prisma.campaign.findMany()` invocation:
+
+
+error: Environment variable not found: DATABASE_URL.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+ GET / 200 in 369ms
+ ✓ Compiled in 498ms (282 modules)
+prisma:error 
+Invalid `prisma.campaign.findMany()` invocation:
+
+
+error: Environment variable not found: DATABASE_URL.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+prisma:error 
+Invalid `prisma.donation.findMany()` invocation:
+
+
+error: Environment variable not found: DATABASE_URL.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+prisma:error 
+Invalid `prisma.report.findMany()` invocation:
+
+
+error: Environment variable not found: DATABASE_URL.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+ GET /donate 200 in 1395ms
+ ○ Compiling /admin ...
+ ✓ Compiled /admin in 2.6s (1806 modules)
+prisma:error 
+Invalid `prisma.campaign.findMany()` invocation:
+
+
+error: Environment variable not found: DATABASE_URL.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+prisma:error 
+Invalid `prisma.donation.findMany()` invocation:
+
+
+error: Environment variable not found: DATABASE_URL.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+prisma:error 
+Invalid `prisma.donation.aggregate()` invocation:
+
+
+error: Environment variable not found: DATABASE_URL.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+prisma:error 
+Invalid `prisma.donation.count()` invocation:
+
+
+error: Environment variable not found: DATABASE_URL.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+prisma:error 
+Invalid `prisma.donation.count()` invocation:
+
+
+error: Environment variable not found: DATABASE_URL.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+ GET /admin 200 in 3056ms
+ ✓ Compiled in 688ms (1820 modules)
+prisma:error 
+Invalid `prisma.campaign.findMany()` invocation:
+
+
+error: Environment variable not found: DATABASE_URL.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+prisma:error 
+Invalid `prisma.donation.findMany()` invocation:
+
+
+error: Environment variable not found: DATABASE_URL.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+prisma:error 
+Invalid `prisma.donation.findMany()` invocation:
+
+
+error: Environment variable not found: DATABASE_URL.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+prisma:error 
+Invalid `prisma.donation.count()` invocation:
+
+
+error: Environment variable not found: DATABASE_URL.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+prisma:error 
+Invalid `prisma.donation.count()` invocation:
+
+
+error: Environment variable not found: DATABASE_URL.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+ GET /admin 200 in 533ms
+prisma:error 
+Invalid `prisma.campaign.findMany()` invocation:
+
+
+error: Environment variable not found: DATABASE_URL.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+prisma:error 
+Invalid `prisma.donation.findMany()` invocation:
+
+
+error: Environment variable not found: DATABASE_URL.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+prisma:error 
+Invalid `prisma.donation.findMany()` invocation:
+
+
+error: Environment variable not found: DATABASE_URL.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+prisma:error 
+Invalid `prisma.donation.count()` invocation:
+
+
+error: Environment variable not found: DATABASE_URL.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+prisma:error 
+Invalid `prisma.donation.count()` invocation:
+
+
+error: Environment variable not found: DATABASE_URL.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+ ○ Compiling /_error ...
+ ✓ Compiled /_error in 1509ms (2153 modules)
+prisma:error 
+Invalid `prisma.campaign.findMany()` invocation:
+
+
+error: Environment variable not found: DATABASE_URL.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+prisma:error 
+Invalid `prisma.donation.findMany()` invocation:
+
+
+error: Environment variable not found: DATABASE_URL.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+prisma:error 
+Invalid `prisma.donation.findMany()` invocation:
+
+
+error: Environment variable not found: DATABASE_URL.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+prisma:error 
+Invalid `prisma.donation.count()` invocation:
+
+
+error: Environment variable not found: DATABASE_URL.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+prisma:error 
+Invalid `prisma.donation.count()` invocation:
+
+
+error: Environment variable not found: DATABASE_URL.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+ GET /admin 200 in 870ms
+prisma:error 
+Invalid `prisma.campaign.findMany()` invocation:
+
+
+error: Environment variable not found: DATABASE_URL.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+prisma:error 
+Invalid `prisma.donation.findMany()` invocation:
+
+
+error: Environment variable not found: DATABASE_URL.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+prisma:error 
+Invalid `prisma.donation.findMany()` invocation:
+
+
+error: Environment variable not found: DATABASE_URL.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+prisma:error 
+Invalid `prisma.donation.count()` invocation:
+
+
+error: Environment variable not found: DATABASE_URL.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+prisma:error 
+Invalid `prisma.donation.count()` invocation:
+
+
+error: Environment variable not found: DATABASE_URL.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+ GET /admin 200 in 43ms
+ GET /admin 500 in 3893ms
+ ✓ Compiled in 752ms (2167 modules)
+ GET /admin 200 in 360ms
+ GET /admin 500 in 3367ms
+ ✓ Compiled in 1736ms (966 modules)
+ ✓ Compiled in 666ms (966 modules)
+ ✓ Compiled in 896ms (2193 modules)
+ ✓ Compiled in 966ms (2193 modules)
+ ○ Compiling /_not-found ...
+ ✓ Compiled /_not-found in 927ms (2184 modules)
+ GET / 200 in 533ms
+ GET /admin 200 in 206ms
+ ✓ Compiled in 329ms (1166 modules)
+ GET / 200 in 179ms
+ GET /admin 200 in 43ms
+ GET / 200 in 30ms
+ GET /admin 200 in 27ms
+ GET / 404 in 247ms
+ GET / 404 in 255ms
+ GET / 404 in 243ms
+ GET / 404 in 244ms
+ GET / 404 in 233ms
+ GET / 404 in 256ms
+ GET / 404 in 240ms
+ GET / 404 in 243ms
+ GET / 404 in 247ms
+ GET / 404 in 242ms
+ GET / 404 in 241ms
+ GET / 404 in 260ms
+ GET / 404 in 239ms
+ GET / 404 in 240ms
+ GET / 404 in 241ms
+ GET / 404 in 242ms
+ GET / 404 in 264ms
+ GET / 404 in 244ms
+ GET / 404 in 254ms
+ GET / 404 in 241ms
+ GET / 404 in 228ms
+ GET / 404 in 244ms
+ GET / 404 in 247ms
+ GET / 404 in 247ms
+ GET / 404 in 224ms
+ GET / 404 in 240ms
+ GET / 404 in 235ms
+ GET / 404 in 237ms
+ GET / 404 in 239ms
+ GET / 404 in 236ms
+ GET / 404 in 232ms
+ GET / 404 in 243ms
+ GET / 404 in 242ms
+ GET / 404 in 241ms
+ GET / 404 in 252ms
+ GET / 404 in 246ms
+ GET / 404 in 244ms
+ GET / 404 in 246ms
+ GET / 404 in 249ms
+ GET / 404 in 254ms
+ GET / 404 in 252ms
+ GET / 404 in 246ms
+ GET / 404 in 236ms
+ GET / 404 in 249ms
+ GET / 404 in 245ms
+ GET / 404 in 248ms
+ GET / 404 in 240ms
+ GET / 404 in 237ms
+ GET / 404 in 240ms
+ GET / 404 in 238ms
+ GET / 404 in 239ms
+ GET / 404 in 233ms
+ GET / 404 in 245ms
+ GET / 404 in 235ms
+ GET / 404 in 229ms
+ GET / 404 in 246ms
+ GET / 404 in 244ms
+ GET / 404 in 247ms
+ GET / 404 in 255ms
+ GET / 404 in 251ms
+ GET / 404 in 255ms
+ GET / 404 in 240ms
+ GET / 404 in 255ms
+ GET / 404 in 246ms
+ GET / 404 in 244ms
+ GET / 404 in 240ms
+ GET / 404 in 245ms
+ GET / 404 in 273ms
+ GET / 404 in 250ms
+ GET / 404 in 258ms
+ GET / 404 in 226ms
+ GET / 404 in 249ms
+ GET / 200 in 83ms
+   Reload env: .env
+ ✓ Compiled in 8.6s (1147 modules)
+ ✓ Compiled in 6.3s (1147 modules)
+   Reload env: .env
+ ✓ Compiled in 1240ms (1147 modules)
+   Reload env: .env
+ ✓ Compiled in 750ms (1147 modules)
+ ✓ Compiled in 4.2s (463 modules)
+ ✓ Compiled in 942ms (463 modules)
+ ✓ Compiled in 4.3s (1161 modules)
+ ✓ Compiled in 4.1s (1147 modules)
+ ✓ Compiled in 8.1s (1229 modules)
+ ✓ Compiled in 5.8s (1228 modules)
+ ✓ Compiled in 5.5s (1228 modules)
+ ✓ Compiled in 2.9s (1228 modules)
+ ✓ Compiled in 765ms (463 modules)
+ ✓ Compiled in 1397ms (1228 modules)
+ ✓ Compiled in 1986ms (1228 modules)
+ ✓ Compiled in 2.9s (463 modules)
+ ✓ Compiled in 8.5s (1232 modules)
+ ✓ Compiled in 4.1s (1218 modules)
+ ✓ Compiled in 1900ms (1218 modules)
+ ✓ Compiled in 13.7s (1204 modules)
+ ✓ Compiled in 7s (1204 modules)
+ ✓ Compiled in 3.5s (1204 modules)
+ ✓ Compiled in 2.6s (1204 modules)
+ ✓ Compiled in 1069ms (453 modules)
+ ✓ Compiled in 633ms (453 modules)
+ ✓ Compiled in 745ms (453 modules)
+ ✓ Compiled in 4.7s (1204 modules)
+ ✓ Compiled in 873ms (453 modules)
+ ✓ Compiled in 1036ms (453 modules)
+ ✓ Compiled in 950ms (453 modules)
+ ✓ Compiled in 6.9s (1204 modules)
+ ✓ Compiled in 2.9s (1204 modules)
+ ✓ Compiled in 4.1s (1204 modules)
+ ✓ Compiled in 1242ms (453 modules)
+ ✓ Compiled in 698ms (453 modules)
+ ✓ Compiled in 696ms (453 modules)
+ ✓ Compiled in 746ms (453 modules)
+ ✓ Compiled in 699ms (453 modules)
+ ✓ Compiled in 8.3s (1206 modules)
+ ✓ Compiled in 4.6s (1206 modules)
+ ✓ Compiled in 1180ms (454 modules)
+ ✓ Compiled in 547ms (454 modules)
+ ✓ Compiled in 7s (1222 modules)
+ ✓ Compiled in 3.5s (1215 modules)
+ ✓ Compiled in 909ms (459 modules)
+ ✓ Compiled in 935ms (459 modules)
+ ✓ Compiled in 804ms (459 modules)
+ ✓ Compiled in 1321ms (459 modules)
+ ✓ Compiled in 1671ms (459 modules)
+ ✓ Compiled in 1104ms (459 modules)

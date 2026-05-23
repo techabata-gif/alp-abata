@@ -1,0 +1,114 @@
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ ⨯ Error: Could not find the module "D:\alp-abata\node_modules\next\dist\next-devtools\userspace\app\segment-explorer-node.js#SegmentViewNode" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '85465924'
+}
+ ⨯ Error: Could not find the module "D:\alp-abata\node_modules\next\dist\next-devtools\userspace\app\segment-explorer-node.js#SegmentViewNode" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>) {
+  digest: '1519275680'
+}
+ ⨯ Error: Could not find the module "D:\alp-abata\node_modules\next\dist\next-devtools\userspace\app\segment-explorer-node.js#SegmentViewNode" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>) {
+  digest: '1519275680'
+}
+ ⨯ Error: Could not find the module "D:\alp-abata\node_modules\next\dist\next-devtools\userspace\app\segment-explorer-node.js#SegmentViewNode" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>) {
+  digest: '1519275680'
+}
+ ⨯ Error: Could not find the module "D:\alp-abata\node_modules\next\dist\next-devtools\userspace\app\segment-explorer-node.js#SegmentViewNode" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '85465924'
+}
+ ⨯ Error: Could not find the module "D:\alp-abata\node_modules\next\dist\next-devtools\userspace\app\segment-explorer-node.js#SegmentViewNode" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '85465924'
+}
+ ⨯ [TypeError: __webpack_modules__[moduleId] is not a function] {
+  digest: '2384644749'
+}
+ ⨯ Error: Could not find the module "D:\alp-abata\node_modules\next\dist\next-devtools\userspace\app\segment-explorer-node.js#SegmentViewNode" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '85465924'
+}
+[TypeError: __webpack_modules__[moduleId] is not a function]
+ ⨯ [TypeError: __webpack_modules__[moduleId] is not a function]
+ ⨯ [TypeError: __webpack_modules__[moduleId] is not a function] {
+  page: '/admin'
+}
+ ⨯ Error: Could not find the module "D:\alp-abata\node_modules\next\dist\next-devtools\userspace\app\segment-explorer-node.js#SegmentViewNode" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '85465924'
+}
+ ⨯ Error: Could not find the module "D:\alp-abata\node_modules\next\dist\next-devtools\userspace\app\segment-explorer-node.js#SegmentViewNode" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>) {
+  digest: '1519275680'
+}
+ ⨯ Error: Could not find the module "D:\alp-abata\node_modules\next\dist\next-devtools\userspace\app\segment-explorer-node.js#SegmentViewNode" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>) {
+  digest: '1519275680'
+}
+ ⨯ Error: Could not find the module "D:\alp-abata\node_modules\next\dist\next-devtools\userspace\app\segment-explorer-node.js#SegmentViewNode" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>) {
+  digest: '1519275680'
+}
+ ⨯ Error: Could not find the module "D:\alp-abata\node_modules\next\dist\next-devtools\userspace\app\segment-explorer-node.js#SegmentViewNode" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '85465924'
+}
+ ⨯ Error: Could not find the module "D:\alp-abata\node_modules\next\dist\next-devtools\userspace\app\segment-explorer-node.js#SegmentViewNode" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '85465924'
+}
+ ⨯ [TypeError: __webpack_modules__[moduleId] is not a function] {
+  digest: '2384644749'
+}
+ ⨯ Error: Could not find the module "D:\alp-abata\node_modules\next\dist\next-devtools\userspace\app\segment-explorer-node.js#SegmentViewNode" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '85465924'
+}
+[TypeError: __webpack_modules__[moduleId] is not a function]
+ ⨯ [TypeError: __webpack_modules__[moduleId] is not a function]
+ ⨯ [TypeError: __webpack_modules__[moduleId] is not a function] {
+  page: '/admin'
+}
+ ⨯ Error: Cannot find module './611.js'
+Require stack:
+- D:\alp-abata\.next\server\webpack-runtime.js
+- D:\alp-abata\.next\server\app\admin\page.js
+- D:\alp-abata\node_modules\next\dist\server\require.js
+- D:\alp-abata\node_modules\next\dist\server\load-components.js
+- D:\alp-abata\node_modules\next\dist\build\utils.js
+- D:\alp-abata\node_modules\next\dist\build\swc\options.js
+- D:\alp-abata\node_modules\next\dist\build\swc\index.js
+- D:\alp-abata\node_modules\next\dist\build\next-config-ts\transpile-config.js
+- D:\alp-abata\node_modules\next\dist\server\config.js
+- D:\alp-abata\node_modules\next\dist\server\next.js
+- D:\alp-abata\node_modules\next\dist\server\lib\start-server.js
+    at <unknown> (D:\alp-abata\.next\server\pages\_document.js:1:325)
+    at Object.<anonymous> (D:\alp-abata\.next\server\pages\_document.js:1:371) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ ⨯ ./src/components/admin/admin-donation-chart.tsx
+Error: 
+
+Caused by:
+    0: Failed to read source code from D:\alp-abata\src\components\admin\admin-donation-chart.tsx
+    1: The system cannot find the file specified. (os error 2)
+
+Import trace for requested module:
+./src/components/admin/admin-donation-chart.tsx
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, rename 'D:\alp-abata\.next\cache\webpack\client-development\1.pack.gz_' -> 'D:\alp-abata\.next\cache\webpack\client-development\1.pack.gz'
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, rename 'D:\alp-abata\.next\cache\webpack\client-development\0.pack.gz_' -> 'D:\alp-abata\.next\cache\webpack\client-development\0.pack.gz'
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, rename 'D:\alp-abata\.next\cache\webpack\server-development\0.pack.gz_' -> 'D:\alp-abata\.next\cache\webpack\server-development\0.pack.gz'
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, rename 'D:\alp-abata\.next\cache\webpack\client-development\1.pack.gz_' -> 'D:\alp-abata\.next\cache\webpack\client-development\1.pack.gz'
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, rename 'D:\alp-abata\.next\cache\webpack\client-development\0.pack.gz_' -> 'D:\alp-abata\.next\cache\webpack\client-development\0.pack.gz'
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, rename 'D:\alp-abata\.next\cache\webpack\client-development\0.pack.gz_' -> 'D:\alp-abata\.next\cache\webpack\client-development\0.pack.gz'
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, rename 'D:\alp-abata\.next\cache\webpack\client-development\3.pack.gz_' -> 'D:\alp-abata\.next\cache\webpack\client-development\3.pack.gz'
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, rename 'D:\alp-abata\.next\cache\webpack\client-development\0.pack.gz_' -> 'D:\alp-abata\.next\cache\webpack\client-development\0.pack.gz'

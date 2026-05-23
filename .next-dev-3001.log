@@ -1,0 +1,77 @@
+
+> alp-abata-donation-platform@0.1.0 dev
+> next dev -p 3001
+
+   ▲ Next.js 15.5.18
+   - Local:        http://localhost:3001
+   - Network:      http://192.168.100.9:3001
+
+ ✓ Starting...
+ ✓ Ready in 1957ms
+ ○ Compiling /admin ...
+ ✓ Compiled /admin in 3.8s (1763 modules)
+ GET /admin 200 in 4448ms
+ ✓ Compiled in 923ms (1763 modules)
+ GET /admin 200 in 186ms
+ GET /admin 200 in 304ms
+ ○ Compiling /_error ...
+ ✓ Compiled /_error in 1686ms (2096 modules)
+ GET /admin 200 in 894ms
+ GET /admin 200 in 32ms
+ GET /admin 500 in 4030ms
+ ○ Compiling / ...
+ ✓ Compiled / in 1055ms (2159 modules)
+ ✓ Compiled in 396ms (1141 modules)
+ GET / 200 in 166ms
+   Reload env: .env
+ ✓ Compiled in 8.2s (1079 modules)
+ ✓ Compiled in 2.9s (1079 modules)
+   Reload env: .env
+ ✓ Compiled in 1446ms (1079 modules)
+   Reload env: .env
+ ✓ Compiled in 693ms (1079 modules)
+ ✓ Compiled in 3.8s (455 modules)
+ ✓ Compiled in 997ms (455 modules)
+ ✓ Compiled in 4.1s (1093 modules)
+ ✓ Compiled in 3.9s (1079 modules)
+ ✓ Compiled in 8.1s (1161 modules)
+ ✓ Compiled in 3.3s (1160 modules)
+ ✓ Compiled in 5.2s (1146 modules)
+ ✓ Compiled in 2.1s (1160 modules)
+ ✓ Compiled in 714ms (455 modules)
+ ✓ Compiled in 1198ms (1160 modules)
+ ✓ Compiled in 648ms (455 modules)
+ ✓ Compiled in 2.8s (455 modules)
+ ✓ Compiled in 8s (1164 modules)
+ ✓ Compiled in 3.6s (1150 modules)
+ ✓ Compiled in 1959ms (1164 modules)
+ ✓ Compiled in 13.7s (1085 modules)
+ ✓ Compiled in 6.5s (1099 modules)
+ ✓ Compiled in 3.4s (1099 modules)
+ ✓ Compiled in 2.5s (1099 modules)
+ ✓ Compiled in 1003ms (427 modules)
+ ✓ Compiled in 644ms (427 modules)
+ ✓ Compiled in 714ms (427 modules)
+ ✓ Compiled in 4.3s (1099 modules)
+ ✓ Compiled in 893ms (427 modules)
+ ✓ Compiled in 826ms (427 modules)
+ ✓ Compiled in 805ms (427 modules)
+ ✓ Compiled in 6s (1099 modules)
+ ✓ Compiled in 2.5s (1099 modules)
+ ✓ Compiled in 3.7s (1099 modules)
+ ✓ Compiled in 1099ms (427 modules)
+ ✓ Compiled in 702ms (427 modules)
+ ✓ Compiled in 667ms (427 modules)
+ ✓ Compiled in 770ms (427 modules)
+ ✓ Compiled in 683ms (427 modules)
+ ✓ Compiled in 8.1s (1101 modules)
+ ✓ Compiled in 3.9s (1101 modules)
+ ✓ Compiled in 1116ms (428 modules)
+ ✓ Compiled in 6.4s (1117 modules)
+ ✓ Compiled in 1089ms (432 modules)
+ ✓ Compiled in 918ms (432 modules)
+ ✓ Compiled in 1036ms (432 modules)
+ ✓ Compiled in 852ms (432 modules)
+ ✓ Compiled in 1215ms (432 modules)
+ ✓ Compiled in 1577ms (432 modules)
+ ✓ Compiled in 1064ms (432 modules)
