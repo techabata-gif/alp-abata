@@ -19,7 +19,7 @@ export async function POST(request: Request) {
     const arrayBuffer = await file.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
 
-    return new Promise((resolve, reject) => {
+    return new Promise<NextResponse>((resolve, reject) => {
       cloudinary.uploader.upload_stream(
         {
           folder: process.env.CLOUDINARY_FOLDER || "alp-abata",

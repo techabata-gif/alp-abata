@@ -4,8 +4,9 @@ import { requirePermission } from "@/lib/auth";
 
 export async function PUT(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params;
   const check = await requirePermission("campaign:write");
   if (check.error) return NextResponse.json({ error: check.error }, { status: check.status });
 
@@ -13,7 +14,7 @@ export async function PUT(
     const { title, slug, description } = await request.json();
 
     const program = await prisma.program.update({
-      where: { id: params.id },
+      where: { id },
       data: {
         title,
         slug,
@@ -32,14 +33,15 @@ export async function PUT(
 
 export async function DELETE(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params;
   const check = await requirePermission("campaign:write");
   if (check.error) return NextResponse.json({ error: check.error }, { status: check.status });
 
   try {
     const program = await prisma.program.findUnique({
-      where: { id: params.id },
+      where: { id },
       include: { _count: { select: { campaigns: true } } }
     });
 
@@ -52,7 +54,7 @@ export async function DELETE(
     }
 
     await prisma.program.delete({
-      where: { id: params.id }
+      where: { id }
     });
 
     return NextResponse.json({ success: true });

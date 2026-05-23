@@ -4,8 +4,9 @@ import { requirePermission } from "@/lib/auth";
 
 export async function PUT(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params;
   const check = await requirePermission("donation:write");
   if (check.error) return NextResponse.json({ error: check.error }, { status: check.status });
 
@@ -13,7 +14,7 @@ export async function PUT(
     const data = await request.json();
 
     const donation = await prisma.donation.findUnique({
-      where: { id: params.id }
+      where: { id }
     });
 
     if (!donation) {
@@ -48,7 +49,7 @@ export async function PUT(
 
     const updated = await prisma.$transaction(async (tx) => {
       const updatedDonation = await tx.donation.update({
-        where: { id: params.id },
+        where: { id },
         data: updateData,
         include: { campaign: { select: { title: true } } }
       });
@@ -90,14 +91,15 @@ export async function PUT(
 
 export async function DELETE(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params;
   const check = await requirePermission("donation:write");
   if (check.error) return NextResponse.json({ error: check.error }, { status: check.status });
 
   try {
     const donation = await prisma.donation.findUnique({
-      where: { id: params.id }
+      where: { id }
     });
 
     if (!donation) {
@@ -106,7 +108,7 @@ export async function DELETE(
 
     await prisma.$transaction(async (tx) => {
       await tx.donation.delete({
-        where: { id: params.id }
+        where: { id }
       });
 
       // Recalculate campaign total if it was verified

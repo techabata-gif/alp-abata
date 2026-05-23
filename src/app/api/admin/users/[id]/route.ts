@@ -5,8 +5,9 @@ import bcrypt from "bcryptjs";
 
 export async function PUT(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params;
   const check = await requirePermission("user:write");
   if (check.error) return NextResponse.json({ error: check.error }, { status: check.status });
 
@@ -29,7 +30,7 @@ export async function PUT(
     }
 
     const updatedUser = await prisma.user.update({
-      where: { id: params.id },
+      where: { id },
       data: dataToUpdate,
       include: { role: true }
     });
@@ -51,19 +52,20 @@ export async function PUT(
 
 export async function DELETE(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params;
   const check = await requirePermission("user:write");
   if (check.error) return NextResponse.json({ error: check.error }, { status: check.status });
 
   const session = await getUserSession();
-  if (session?.id === params.id) {
+  if (session?.id === id) {
     return NextResponse.json({ error: "Anda tidak dapat menghapus akun Anda sendiri" }, { status: 403 });
   }
 
   try {
     const user = await prisma.user.findUnique({
-      where: { id: params.id },
+      where: { id },
       include: { role: true }
     });
 
@@ -82,7 +84,7 @@ export async function DELETE(
     }
 
     await prisma.user.delete({
-      where: { id: params.id }
+      where: { id }
     });
 
     return NextResponse.json({ success: true });

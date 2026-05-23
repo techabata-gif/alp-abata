@@ -8,6 +8,7 @@ import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { formatNumber, formatRupiah, getDaysLeft } from "@/lib/utils";
 import { getCampaignBySlug } from "@/lib/data";
+import { CopyButton } from "@/components/ui/copy-button";
 
 export const dynamic = "force-dynamic";
 
@@ -51,6 +52,46 @@ export default async function CampaignPage({ params }: CampaignPageProps) {
   const nonQtyGuide = settings?.nominal_guide_non_quantity || defaultNonQtyGuide;
 
   const showAnyManualDonation = campaign.showPicContact || campaign.showDonationGuide || campaign.showBankAccounts;
+
+  const formattedNominal = campaign.quantityPrice ? formatRupiah(campaign.quantityPrice) : null;
+
+  const renderGuideText = (text: string, nominalToCopy?: string | null, rawNominal?: number | null) => {
+    const injectNominal = (str: string, isBold: boolean) => {
+      if (!nominalToCopy || !rawNominal || !str.includes(nominalToCopy)) {
+        return isBold ? <strong className="font-bold">{str}</strong> : str;
+      }
+      
+      const subParts = str.split(nominalToCopy);
+      return (
+        <>
+          {subParts.map((sub, j) => (
+            <span key={j}>
+              {isBold ? <strong className="font-bold">{sub}</strong> : sub}
+              {j < subParts.length - 1 && (
+                <span className="inline-flex items-center">
+                  <strong className="font-bold">{nominalToCopy}</strong>
+                  <span className="inline-flex translate-y-1 ml-1">
+                    <CopyButton textToCopy={rawNominal.toString()} />
+                  </span>
+                </span>
+              )}
+            </span>
+          ))}
+        </>
+      );
+    };
+
+    const parts = text.split(/\*\*(.*?)\*\*/g);
+    return (
+      <span className="text-ink leading-relaxed">
+        {parts.map((part, i) => (
+          <span key={i}>
+            {injectNominal(part, i % 2 === 1)}
+          </span>
+        ))}
+      </span>
+    );
+  };
 
   return (
     <>
@@ -152,9 +193,9 @@ export default async function CampaignPage({ params }: CampaignPageProps) {
                   {campaign.showDonationGuide && (
                     <div className="mb-4 rounded-md bg-white p-4 border border-sun/20 text-sm">
                       {isQuantity ? (
-                        <p className="text-ink" dangerouslySetInnerHTML={{ __html: qtyGuide.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }} />
+                        renderGuideText(qtyGuide, formattedNominal, campaign.quantityPrice)
                       ) : (
-                        <p className="text-ink" dangerouslySetInnerHTML={{ __html: nonQtyGuide.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }} />
+                        renderGuideText(nonQtyGuide)
                       )}
                     </div>
                   )}
@@ -179,8 +220,11 @@ export default async function CampaignPage({ params }: CampaignPageProps) {
                               <img src={bank.logoUrl} alt={bank.bankName} className="max-h-full max-w-full object-contain" />
                             </div>
                           )}
-                          <div className="text-sm">
-                            <p className="font-semibold text-ink">{bank.bankName} - {bank.accountNumber}</p>
+                          <div className="text-sm flex-grow">
+                            <div className="font-semibold text-ink flex items-center gap-2">
+                              {bank.bankName} - {bank.accountNumber}
+                              <CopyButton textToCopy={bank.accountNumber} />
+                            </div>
                             <p className="text-ink/60">a.n {bank.accountName}</p>
                           </div>
                         </div>

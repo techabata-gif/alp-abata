@@ -5,6 +5,7 @@ export const campaignSchema = z.object({
   title: z.string().trim().min(4, "Judul minimal 4 karakter"),
   slug: z.string().trim().optional().or(z.literal("")),
   category: z.string().trim().min(3, "Kategori wajib diisi"),
+  programId: z.string().optional().or(z.literal("")),
   shortDescription: z.string().trim().max(180).optional().or(z.literal("")),
   description: z.string().trim().min(20, "Deskripsi minimal 20 karakter"),
   targetAmount: z.coerce
@@ -38,6 +39,7 @@ export function normalizeCampaignInput(input: unknown) {
   return {
     ...parsed,
     slug,
+    programId: parsed.programId || null,
     shortDescription: parsed.shortDescription || null,
     beneficiaryTarget: parsed.beneficiaryTarget ?? null,
     beneficiaryLabel: parsed.beneficiaryLabel || null,

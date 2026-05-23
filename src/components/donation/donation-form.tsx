@@ -10,6 +10,7 @@ import { publicDonationSchema } from "@/validators/donation";
 import { useDonationStore } from "@/store/donation-store";
 import { compressImage } from "@/lib/image-compression";
 import { toast } from "sonner";
+import type { CampaignDTO } from "@/lib/types";
 
 type DonationFormValues = z.infer<typeof publicDonationSchema>;
 

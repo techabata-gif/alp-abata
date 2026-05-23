@@ -4,8 +4,9 @@ import { requirePermission } from "@/lib/auth";
 
 export async function PUT(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params;
   const check = await requirePermission("user:write");
   if (check.error) return NextResponse.json({ error: check.error }, { status: check.status });
 
@@ -20,13 +21,13 @@ export async function PUT(
       return NextResponse.json({ error: "Role SUPER_ADMIN tidak dapat diubah" }, { status: 403 });
     }
 
-    const role = await prisma.role.findUnique({ where: { id: params.id } });
+    const role = await prisma.role.findUnique({ where: { id } });
     if (role?.name === "SUPER_ADMIN") {
       return NextResponse.json({ error: "Role SUPER_ADMIN tidak dapat diubah" }, { status: 403 });
     }
 
     const updatedRole = await prisma.role.update({
-      where: { id: params.id },
+      where: { id },
       data: {
         name,
         description,
@@ -45,14 +46,15 @@ export async function PUT(
 
 export async function DELETE(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params;
   const check = await requirePermission("user:write");
   if (check.error) return NextResponse.json({ error: check.error }, { status: check.status });
 
   try {
     const role = await prisma.role.findUnique({
-      where: { id: params.id },
+      where: { id },
       include: { _count: { select: { users: true } } }
     });
 
@@ -69,7 +71,7 @@ export async function DELETE(
     }
 
     await prisma.role.delete({
-      where: { id: params.id }
+      where: { id }
     });
 
     return NextResponse.json({ success: true });

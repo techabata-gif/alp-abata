@@ -7,8 +7,9 @@ import { normalizeCampaignInput } from "@/validators/campaign";
 
 export async function PUT(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params;
   const check = await requirePermission("campaign:write");
   if (check.error) return NextResponse.json({ error: check.error }, { status: check.status });
 
@@ -17,7 +18,7 @@ export async function PUT(
     const input = normalizeCampaignInput(data);
 
     const updated = await prisma.campaign.update({
-      where: { id: params.id },
+      where: { id },
       data: {
         title: input.title,
         slug: input.slug,
@@ -60,14 +61,15 @@ export async function PUT(
 
 export async function DELETE(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params;
   const check = await requirePermission("campaign:write");
   if (check.error) return NextResponse.json({ error: check.error }, { status: check.status });
 
   try {
     const campaign = await prisma.campaign.findUnique({
-      where: { id: params.id },
+      where: { id },
       include: { _count: { select: { donations: true } } }
     });
 
@@ -80,7 +82,7 @@ export async function DELETE(
     }
 
     await prisma.campaign.delete({
-      where: { id: params.id }
+      where: { id }
     });
 
     return NextResponse.json({ success: true });

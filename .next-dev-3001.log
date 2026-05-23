@@ -106,3 +106,12 @@
  ✓ Compiled in 2.9s (442 modules)
  ✓ Compiled in 3s (442 modules)
  ✓ Compiled in 5.9s (1129 modules)
+ ✓ Compiled in 3.4s (442 modules)
+   ▲ Next.js 15.5.18
+   - Local:        http://localhost:3001
+   - Network:      http://192.168.100.9:3001
+   - Environments: .env
+
+ ✓ Starting...
+ ✓ Ready in 1620ms
+   Reload env: .env
