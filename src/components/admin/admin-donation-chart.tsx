@@ -6,10 +6,7 @@ type AdminDonationChartProps = {
 };
 
 export function AdminDonationChart({ campaigns }: AdminDonationChartProps) {
-  const maxCollected = Math.max(
-    1,
-    ...campaigns.map((campaign) => campaign.collectedAmount)
-  );
+  // We use the campaign's progress percentage for the width now.
 
   return (
     <section className="rounded-lg border border-ink/10 bg-white p-5 shadow-soft">
@@ -19,14 +16,11 @@ export function AdminDonationChart({ campaigns }: AdminDonationChartProps) {
       </div>
       <div className="mt-6 space-y-5">
         {campaigns.map((campaign) => {
-          const width = Math.max(
-            8,
-            Math.round((campaign.collectedAmount / maxCollected) * 100)
-          );
           const progress = getProgressPercentage(
             campaign.collectedAmount,
             campaign.targetAmount
           );
+          const width = Math.max(8, Math.min(100, progress));
 
           return (
             <div key={campaign.id}>

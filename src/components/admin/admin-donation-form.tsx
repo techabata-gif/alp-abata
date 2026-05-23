@@ -15,9 +15,11 @@ type AdminDonationFormValues = z.infer<typeof adminDonationSchema>;
 
 type AdminDonationFormProps = {
   campaigns: CampaignDTO[];
+  initialData?: any;
+  onSuccess?: () => void;
 };
 
-export function AdminDonationForm({ campaigns }: AdminDonationFormProps) {
+export function AdminDonationForm({ campaigns, initialData, onSuccess }: AdminDonationFormProps) {
   const router = useRouter();
   const [file, setFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
@@ -31,12 +33,26 @@ export function AdminDonationForm({ campaigns }: AdminDonationFormProps) {
     formState: { errors, isSubmitting }
   } = useForm<AdminDonationFormValues>({
     resolver: zodResolver(adminDonationSchema),
-    defaultValues: {
+    defaultValues: initialData ? {
+      campaignId: initialData.campaignId,
+      donorName: initialData.donorName,
+      donorPhone: initialData.donorPhone || "",
+      donorEmail: initialData.donorEmail || "",
+      amount: Number(initialData.amount),
+      quantity: Number(initialData.quantity || 1),
+      donationType: initialData.donationType || "Donasi umum",
+      visibility: initialData.visibility || "PUBLIC",
+      paymentMethod: initialData.paymentMethod || "transfer_bank",
+      paymentReference: initialData.paymentReference || "",
+      message: initialData.message || "",
+      status: initialData.status || "VERIFIED"
+    } : {
       campaignId: campaigns[0]?.id,
       donorName: "",
       donorPhone: "",
       donorEmail: "",
-      amount: 100000,
+      amount: campaigns[0]?.isQuantity ? Number(campaigns[0].quantityPrice || 0) : 100000,
+      quantity: 1,
       donationType: "Donasi umum",
       visibility: "PUBLIC",
       paymentMethod: "transfer_bank",
@@ -47,10 +63,15 @@ export function AdminDonationForm({ campaigns }: AdminDonationFormProps) {
   });
 
   const visibility = watch("visibility");
+  const selectedCampaignId = watch("campaignId");
+  const selectedCampaign = campaigns.find(c => c.id === selectedCampaignId);
+  const isQuantity = selectedCampaign?.isQuantity;
+  const quantityPrice = Number(selectedCampaign?.quantityPrice || 0);
+  const quantityUnit = selectedCampaign?.quantityUnit || "Item";
 
   async function onSubmit(values: AdminDonationFormValues) {
     setUploading(true);
-    let paymentProofUrl = undefined;
+    let paymentProofUrl = initialData?.paymentProofUrl;
 
     try {
       if (file) {
@@ -70,8 +91,11 @@ export function AdminDonationForm({ campaigns }: AdminDonationFormProps) {
         paymentProofUrl
       };
 
-      const response = await fetch("/api/admin/donations", {
-        method: "POST",
+      const url = initialData ? `/api/admin/donations/${initialData.id}` : "/api/admin/donations";
+      const method = initialData ? "PUT" : "POST";
+
+      const response = await fetch(url, {
+        method,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payloadToSend)
       });
@@ -82,13 +106,13 @@ export function AdminDonationForm({ campaigns }: AdminDonationFormProps) {
         throw new Error(payload.error ?? "Donasi manual belum berhasil dicatat.");
       }
 
-      toast.success("Donasi manual berhasil dicatat.");
+      toast.success(initialData ? "Donasi manual berhasil diperbarui." : "Donasi manual berhasil dicatat.");
       reset({
         ...values,
         donorName: "",
         donorPhone: "",
         donorEmail: "",
-        amount: 100000,
+        amount: campaigns[0]?.isQuantity ? Number(campaigns[0].quantityPrice || 0) : 100000,
         paymentReference: "",
         message: ""
       });
@@ -96,6 +120,7 @@ export function AdminDonationForm({ campaigns }: AdminDonationFormProps) {
       const fileInput = document.getElementById("adminPaymentProof") as HTMLInputElement;
       if (fileInput) fileInput.value = "";
       router.refresh();
+      onSuccess?.();
     } catch (err: any) {
       toast.error(err.message || "Terjadi kesalahan.");
     } finally {
@@ -106,13 +131,13 @@ export function AdminDonationForm({ campaigns }: AdminDonationFormProps) {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="rounded-lg border border-ink/10 bg-white p-5 shadow-soft"
+      className="bg-white p-2"
     >
       <div className="flex items-center gap-3">
         <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-mint text-leaf">
           <Banknote size={20} aria-hidden="true" />
         </span>
-        <h2 className="text-lg font-semibold text-ink">Input dana masuk</h2>
+        <h2 className="text-lg font-semibold text-ink">{initialData ? "Edit donasi" : "Input dana masuk"}</h2>
       </div>
 
       <div className="mt-5 grid gap-4">
@@ -121,6 +146,14 @@ export function AdminDonationForm({ campaigns }: AdminDonationFormProps) {
           <select
             {...register("campaignId")}
             className="w-full rounded-lg border border-ink/15 px-3 py-3 outline-none focus:border-leaf focus:ring-4 focus:ring-mint bg-white"
+            onChange={(e) => {
+              setValue("campaignId", e.target.value);
+              const c = campaigns.find(cam => cam.id === e.target.value);
+              if (c?.isQuantity) {
+                const q = watch("quantity") || 1;
+                setValue("amount", q * Number(c.quantityPrice || 0));
+              }
+            }}
           >
             {campaigns.map((campaign) => (
               <option key={campaign.id} value={campaign.id}>
@@ -141,17 +174,45 @@ export function AdminDonationForm({ campaigns }: AdminDonationFormProps) {
               <span className="text-xs text-red-600">{errors.donorName.message}</span>
             ) : null}
           </label>
-          <label className="grid gap-2 text-sm font-medium overflow-hidden">
-            Nominal
-            <input
-              {...register("amount")}
-              inputMode="numeric"
-              className="w-full rounded-lg border border-ink/15 px-3 py-3 outline-none focus:border-leaf focus:ring-4 focus:ring-mint"
-            />
-            {errors.amount ? (
-              <span className="text-xs text-red-600">{errors.amount.message}</span>
-            ) : null}
-          </label>
+          
+          {isQuantity ? (
+            <div className="grid gap-4 grid-cols-[1fr_1fr]">
+              <label className="grid gap-2 text-sm font-medium overflow-hidden">
+                Jumlah ({quantityUnit})
+                <input
+                  {...register("quantity")}
+                  type="number"
+                  min="1"
+                  className="w-full rounded-lg border border-ink/15 px-3 py-3 outline-none focus:border-leaf focus:ring-4 focus:ring-mint bg-white"
+                  onChange={(e) => {
+                    const q = Number(e.target.value);
+                    setValue("quantity", q);
+                    setValue("amount", q * quantityPrice, { shouldValidate: true });
+                  }}
+                />
+              </label>
+              <label className="grid gap-2 text-sm font-medium overflow-hidden">
+                Nominal
+                <input
+                  {...register("amount")}
+                  readOnly
+                  className="w-full rounded-lg border border-ink/15 px-3 py-3 outline-none focus:border-leaf focus:ring-4 focus:ring-mint bg-ink/5 cursor-not-allowed"
+                />
+              </label>
+            </div>
+          ) : (
+            <label className="grid gap-2 text-sm font-medium overflow-hidden">
+              Nominal
+              <input
+                {...register("amount")}
+                inputMode="numeric"
+                className="w-full rounded-lg border border-ink/15 px-3 py-3 outline-none focus:border-leaf focus:ring-4 focus:ring-mint"
+              />
+              {errors.amount ? (
+                <span className="text-xs text-red-600">{errors.amount.message}</span>
+              ) : null}
+            </label>
+          )}
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2">
@@ -197,8 +258,27 @@ export function AdminDonationForm({ campaigns }: AdminDonationFormProps) {
           </label>
         </div>
 
-        <label className="grid gap-2 text-sm font-medium overflow-hidden">
-          Cover Image
+        <div className="grid gap-2 text-sm font-medium overflow-hidden">
+          Bukti Transfer
+          {initialData?.paymentProofUrl && !file && (
+            <div className="relative mb-2 inline-block w-fit">
+              <img src={initialData.paymentProofUrl} alt="Bukti transfer" className="h-24 w-auto rounded border" />
+              <button
+                type="button"
+                onClick={() => {
+                  // In a real app we might want to also remove it from DB immediately or on save
+                  // For now, setting file=null doesn't delete the old URL. 
+                  // If we want to allow removing, we'd need a state for it.
+                  // Since we didn't add a state for paymentProofUrl in form, we'll just show it.
+                  alert("Untuk mengganti bukti transfer, cukup pilih file baru.");
+                }}
+                className="absolute -right-2 -top-2 rounded-full bg-red-600 p-1 text-white hover:bg-red-700 hidden"
+                title="Hapus Bukti"
+              >
+                X
+              </button>
+            </div>
+          )}
           <input
             id="adminPaymentProof"
             type="file"
@@ -206,7 +286,7 @@ export function AdminDonationForm({ campaigns }: AdminDonationFormProps) {
             onChange={(e) => setFile(e.target.files?.[0] || null)}
             className="w-full block text-sm text-ink/70 file:mr-2 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-leaf file:text-white hover:file:bg-ink transition overflow-hidden file:cursor-pointer truncate"
           />
-        </label>
+        </div>
 
         <label className="flex items-center gap-3 rounded-lg border border-ink/10 bg-cloud px-3 py-3 text-sm font-medium">
           <input
@@ -231,7 +311,7 @@ export function AdminDonationForm({ campaigns }: AdminDonationFormProps) {
         ) : (
           <Plus size={17} aria-hidden="true" />
         )}
-        Simpan donasi
+        {initialData ? "Simpan Perubahan" : "Simpan donasi"}
       </button>
     </form>
   );

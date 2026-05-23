@@ -1,8 +1,8 @@
 import { getUserSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { AdminShell } from "@/components/admin/admin-shell";
-import { DonationManager } from "@/components/admin/donation-manager";
-import { getAdminDashboardData } from "@/lib/data";
+import { ReportManager } from "@/components/admin/report-manager";
+import { getAdminDashboardData, getLandingData } from "@/lib/data";
 
 export const dynamic = "force-dynamic";
 
@@ -10,12 +10,13 @@ export default async function AdminReportsPage() {
   const session = await getUserSession();
   if (!session) redirect("/login");
 
-  const { donations } = await getAdminDashboardData();
+  const { campaigns } = await getAdminDashboardData();
+  const { reports } = await getLandingData();
 
   return (
     <AdminShell
-      title="Laporan Donasi"
-      description="Lihat daftar donasi masuk beserta status verifikasinya."
+      title="Aktivitas Penyaluran"
+      description="Catat dan publikasikan dokumentasi penyaluran dana ke halaman utama."
       user={{
         name: session.name,
         email: session.email,
@@ -24,7 +25,7 @@ export default async function AdminReportsPage() {
       }}
     >
       <div className="mx-auto max-w-7xl">
-        <DonationManager initialDonations={donations} />
+        <ReportManager initialReports={reports} campaigns={campaigns} />
       </div>
     </AdminShell>
   );

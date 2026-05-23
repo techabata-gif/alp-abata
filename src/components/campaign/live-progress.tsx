@@ -6,6 +6,7 @@ import type { CampaignDTO } from "@/lib/types";
 import { formatRupiah, getProgressPercentage } from "@/lib/utils";
 import { ProgressBar } from "@/components/ui/progress-bar";
 
+
 type LiveProgressProps = {
   initialCampaign: CampaignDTO;
 };
@@ -45,10 +46,27 @@ export function LiveProgress({ initialCampaign }: LiveProgressProps) {
     campaign.targetAmount
   );
 
+  const isQuantity = campaign.isQuantity && !!campaign.quantityPrice;
+  const targetQuantity = isQuantity ? Math.floor(campaign.targetAmount / campaign.quantityPrice!) : 0;
+  const collectedQuantity = isQuantity ? Math.floor(campaign.collectedAmount / campaign.quantityPrice!) : 0;
+  const missingAmount = Math.max(0, campaign.targetAmount - campaign.collectedAmount);
+  const unit = campaign.quantityUnit || "paket";
+
   return (
     <section className="rounded-lg border border-ink/10 bg-white p-5 shadow-soft">
       <div className="flex items-start justify-between gap-4">
         <div>
+          <div className="mb-2">
+            {progress >= 100 ? (
+              <span className="inline-flex items-center rounded-lg bg-mint px-2.5 py-1 text-xs font-semibold text-leaf">
+                Terpenuhi
+              </span>
+            ) : (
+              <span className="inline-flex items-center rounded-lg bg-sun/20 px-2.5 py-1 text-xs font-semibold text-amber-800">
+                Berjalan
+              </span>
+            )}
+          </div>
           <p className="text-sm font-semibold text-leaf">Progress realtime</p>
           <h2 className="mt-1 text-3xl font-semibold text-ink">
             {formatRupiah(campaign.collectedAmount)}
@@ -73,6 +91,18 @@ export function LiveProgress({ initialCampaign }: LiveProgressProps) {
           collected={campaign.collectedAmount}
           target={campaign.targetAmount}
         />
+        <div className="mt-2 flex items-center justify-between text-xs text-ink/58">
+          <span>Target {formatRupiah(campaign.targetAmount)}</span>
+          {isQuantity ? (
+            <span className={progress >= 100 ? "font-semibold text-leaf" : "font-medium text-red-600"}>
+              {collectedQuantity}/{targetQuantity} {unit} terpenuhi
+            </span>
+          ) : (
+            <span className={progress >= 100 ? "font-semibold text-leaf" : "font-medium text-red-600"}>
+              {progress >= 100 ? "Target terpenuhi" : `Kurang: ${formatRupiah(missingAmount)}`}
+            </span>
+          )}
+        </div>
       </div>
     </section>
   );

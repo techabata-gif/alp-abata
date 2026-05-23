@@ -1,7 +1,7 @@
 import { getUserSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { AdminShell } from "@/components/admin/admin-shell";
-import { AdminDonationForm } from "@/components/admin/admin-donation-form";
+import { DonationManager } from "@/components/admin/donation-manager";
 import { getAdminDashboardData } from "@/lib/data";
 
 export const dynamic = "force-dynamic";
@@ -10,7 +10,7 @@ export default async function AdminDonationsPage() {
   const session = await getUserSession();
   if (!session) redirect("/login");
 
-  const { campaigns } = await getAdminDashboardData();
+  const { campaigns, donations } = await getAdminDashboardData();
 
   return (
     <AdminShell
@@ -23,8 +23,8 @@ export default async function AdminDonationsPage() {
         initials: session.name.substring(0, 2).toUpperCase()
       }}
     >
-      <div className="mx-auto max-w-3xl">
-        <AdminDonationForm campaigns={campaigns} />
+      <div className="mx-auto max-w-7xl">
+        <DonationManager initialDonations={donations} campaigns={campaigns} />
       </div>
     </AdminShell>
   );

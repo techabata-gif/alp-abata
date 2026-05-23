@@ -19,7 +19,13 @@ export const campaignSchema = z.object({
   status: z.enum(["DRAFT", "ACTIVE", "CLOSED"]).default("ACTIVE"),
   endDate: z.string().optional().or(z.literal("")),
   picContact: z.string().trim().optional().or(z.literal("")),
-  coverImageUrl: z.string().url().optional().or(z.literal(""))
+  coverImageUrl: z.string().optional().or(z.literal("")),
+  isQuantity: z.boolean().default(false).optional(),
+  quantityPrice: z.coerce.number().optional(),
+  quantityUnit: z.string().optional(),
+  showPicContact: z.boolean().default(true).optional(),
+  showDonationGuide: z.boolean().default(true).optional(),
+  showBankAccounts: z.boolean().default(true).optional(),
 });
 
 export type CampaignInput = z.infer<typeof campaignSchema>;

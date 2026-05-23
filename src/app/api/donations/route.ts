@@ -8,13 +8,30 @@ export async function POST(request: Request) {
   try {
     const input = normalizeDonationInput(await request.json());
 
+    const campaign = await prisma.campaign.findUnique({
+      where: { id: input.campaignId }
+    });
+
+    if (!campaign) {
+      return NextResponse.json({ error: "Campaign tidak valid." }, { status: 400 });
+    }
+
+    let finalAmount = BigInt(input.amount);
+    let finalQuantity: number | null = null;
+
+    if (campaign.isQuantity && campaign.quantityPrice) {
+      finalQuantity = input.quantity ?? 1;
+      finalAmount = campaign.quantityPrice * BigInt(finalQuantity);
+    }
+
     const donation = await prisma.donation.create({
       data: {
         campaignId: input.campaignId,
         donorName: input.donorName,
         donorPhone: input.donorPhone,
         donorEmail: input.donorEmail,
-        amount: BigInt(input.amount),
+        amount: finalAmount,
+        quantity: finalQuantity,
         donationType: input.donationType,
         visibility: input.visibility,
         status: "PENDING",

@@ -105,7 +105,7 @@ export function AdminShell({ children, title, description, user }: AdminShellPro
             <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-leaf text-white">
               <ShieldCheck size={19} aria-hidden="true" />
             </span>
-            <span>DanaAmanah</span>
+            <span>ALP #Berdampak</span>
           </Link>
           <button
             type="button"

@@ -20,6 +20,12 @@ export type CampaignDTO = {
   endDate: string | null;
   createdAt: string;
   donationCount: number;
+  isQuantity: boolean;
+  quantityPrice: number | null;
+  quantityUnit: string | null;
+  showPicContact: boolean;
+  showDonationGuide: boolean;
+  showBankAccounts: boolean;
 };
 
 export type DonationDTO = {
@@ -30,11 +36,13 @@ export type DonationDTO = {
   donorPhone: string | null;
   donorEmail: string | null;
   amount: number;
+  quantity: number;
   donationType: string;
   visibility: DonationVisibility;
   status: DonationStatus;
   paymentMethod: string;
   paymentReference: string | null;
+  paymentProofUrl: string | null;
   message: string | null;
   verifiedAt: string | null;
   createdAt: string;

@@ -18,7 +18,7 @@ import { getLandingData } from "@/lib/data";
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
-  const { campaigns, recentDonations, reports } = await getLandingData();
+  const { campaigns, recentDonations, reports, settings } = await getLandingData();
   const totalCollected = campaigns.reduce(
     (sum, campaign) => sum + campaign.collectedAmount,
     0
@@ -28,13 +28,15 @@ export default async function Home() {
     0
   );
 
+  const publicDonationEnabled = settings.public_donation_enabled !== "false";
+
   return (
     <>
-      <SiteHeader />
+      <SiteHeader publicDonationEnabled={publicDonationEnabled} />
       <main>
         <section className="relative min-h-[78vh] overflow-hidden bg-ink text-white">
           <Image
-            src="/assets/hero-donation.png"
+            src={settings.landing_hero_image || "/assets/hero-donation.png"}
             alt=""
             fill
             priority
@@ -46,24 +48,24 @@ export default async function Home() {
             <div className="max-w-3xl">
               <div className="mb-5 inline-flex items-center gap-2 rounded-lg border border-white/20 bg-white/12 px-3 py-2 text-sm font-semibold backdrop-blur">
                 <ShieldCheck size={17} aria-hidden="true" />
-                Transparansi dana untuk campaign sosial
+                {settings.landing_hero_label || "Transparansi dana untuk campaign sosial"}
               </div>
               <h1 className="text-5xl font-semibold leading-tight sm:text-6xl lg:text-7xl">
-                DanaAmanah
+                {settings.landing_hero_title || "ALP #Berdampak"}
               </h1>
-              <p className="mt-5 max-w-2xl text-lg leading-8 text-white/82">
-                Platform penggalangan dana untuk yayasan, sekolah, DKM,
-                komunitas, dan program sosial lain dengan pencatatan manual yang
-                terhubung ke database.
+              <p className="mt-5 max-w-2xl text-lg leading-8 text-white/82 whitespace-pre-line">
+                {settings.landing_hero_description || "Platform penggalangan dana untuk yayasan, sekolah, DKM, komunitas, dan program sosial lain dengan pencatatan manual yang terhubung ke database."}
               </p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                <Link
-                  href="/donate"
-                  className="inline-flex items-center justify-center gap-2 rounded-lg bg-sun px-5 py-3 text-sm font-semibold text-ink transition hover:bg-white"
-                >
-                  <HeartHandshake size={18} aria-hidden="true" />
-                  Mulai donasi
-                </Link>
+                {publicDonationEnabled && (
+                  <Link
+                    href="/donate"
+                    className="inline-flex items-center justify-center gap-2 rounded-lg bg-sun px-5 py-3 text-sm font-semibold text-ink transition hover:bg-white"
+                  >
+                    <HeartHandshake size={18} aria-hidden="true" />
+                    Mulai donasi
+                  </Link>
+                )}
                 <Link
                   href="#campaign"
                   className="inline-flex items-center justify-center gap-2 rounded-lg border border-white/30 px-5 py-3 text-sm font-semibold text-white transition hover:bg-white hover:text-ink"
@@ -109,13 +111,6 @@ export default async function Home() {
                 Program yang sedang berjalan
               </h2>
             </div>
-            <Link
-              href="/admin"
-              className="inline-flex items-center gap-2 rounded-lg border border-ink/10 bg-white px-4 py-3 text-sm font-semibold text-ink transition hover:border-leaf hover:text-leaf"
-            >
-              Kelola campaign
-              <ArrowRight size={17} aria-hidden="true" />
-            </Link>
           </div>
           <div className="mt-8 grid gap-6 lg:grid-cols-2 xl:grid-cols-3">
             {campaigns.map((campaign) => (

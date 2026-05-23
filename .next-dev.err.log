@@ -112,3 +112,306 @@ Import trace for requested module:
 <w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, rename 'D:\alp-abata\.next\cache\webpack\client-development\0.pack.gz_' -> 'D:\alp-abata\.next\cache\webpack\client-development\0.pack.gz'
 <w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, rename 'D:\alp-abata\.next\cache\webpack\client-development\3.pack.gz_' -> 'D:\alp-abata\.next\cache\webpack\client-development\3.pack.gz'
 <w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, rename 'D:\alp-abata\.next\cache\webpack\client-development\0.pack.gz_' -> 'D:\alp-abata\.next\cache\webpack\client-development\0.pack.gz'
+ ⨯ ./src/components/donation/donation-form.tsx
+Module parse failed: Identifier 'selectedCampaign' has already been declared (47:10)
+|     });
+|     const selectedCampaignId = watch("campaignId");
+>     const selectedCampaign = campaigns.find((c)=>c.id === selectedCampaignId);
+|     const isQuantityBased = selectedCampaign === null || selectedCampaign === void 0 ? void 0 : selectedCampaign.isQuantity;
+|     const quantityPrice = Number((selectedCampaign === null || selectedCampaign === void 0 ? void 0 : selectedCampaign.quantityPrice) || 0);
+
+Import trace for requested module:
+./src/components/donation/donation-form.tsx
+ ⨯ ./src/components/donation/donation-form.tsx
+Module parse failed: Identifier 'selectedCampaign' has already been declared (47:10)
+|     });
+|     const selectedCampaignId = watch("campaignId");
+>     const selectedCampaign = campaigns.find((c)=>c.id === selectedCampaignId);
+|     const isQuantityBased = selectedCampaign === null || selectedCampaign === void 0 ? void 0 : selectedCampaign.isQuantity;
+|     const quantityPrice = Number((selectedCampaign === null || selectedCampaign === void 0 ? void 0 : selectedCampaign.quantityPrice) || 0);
+
+Import trace for requested module:
+./src/components/donation/donation-form.tsx
+ ⨯ ./src/components/donation/donation-form.tsx
+Module parse failed: Identifier 'selectedCampaign' has already been declared (47:10)
+|     });
+|     const selectedCampaignId = watch("campaignId");
+>     const selectedCampaign = campaigns.find((c)=>c.id === selectedCampaignId);
+|     const isQuantityBased = selectedCampaign === null || selectedCampaign === void 0 ? void 0 : selectedCampaign.isQuantity;
+|     const quantityPrice = Number((selectedCampaign === null || selectedCampaign === void 0 ? void 0 : selectedCampaign.quantityPrice) || 0);
+
+Import trace for requested module:
+./src/components/donation/donation-form.tsx
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, rename 'D:\alp-abata\.next\cache\webpack\client-development\1.pack.gz_' -> 'D:\alp-abata\.next\cache\webpack\client-development\1.pack.gz'
+ ⨯ ./src/components/donation/donation-form.tsx
+Module parse failed: Identifier 'selectedCampaign' has already been declared (47:10)
+|     });
+|     const selectedCampaignId = watch("campaignId");
+>     const selectedCampaign = campaigns.find((c)=>c.id === selectedCampaignId);
+|     const isQuantityBased = selectedCampaign === null || selectedCampaign === void 0 ? void 0 : selectedCampaign.isQuantity;
+|     const quantityPrice = Number((selectedCampaign === null || selectedCampaign === void 0 ? void 0 : selectedCampaign.quantityPrice) || 0);
+
+Import trace for requested module:
+./src/components/donation/donation-form.tsx
+ ⨯ ./src/components/donation/donation-form.tsx
+Module parse failed: Identifier 'selectedCampaign' has already been declared (47:10)
+|     });
+|     const selectedCampaignId = watch("campaignId");
+>     const selectedCampaign = campaigns.find((c)=>c.id === selectedCampaignId);
+|     const isQuantityBased = selectedCampaign === null || selectedCampaign === void 0 ? void 0 : selectedCampaign.isQuantity;
+|     const quantityPrice = Number((selectedCampaign === null || selectedCampaign === void 0 ? void 0 : selectedCampaign.quantityPrice) || 0);
+
+Import trace for requested module:
+./src/components/donation/donation-form.tsx
+ ⨯ ./src/components/donation/donation-form.tsx
+Module parse failed: Identifier 'selectedCampaign' has already been declared (47:10)
+|     });
+|     const selectedCampaignId = watch("campaignId");
+>     const selectedCampaign = campaigns.find((c)=>c.id === selectedCampaignId);
+|     const isQuantityBased = selectedCampaign === null || selectedCampaign === void 0 ? void 0 : selectedCampaign.isQuantity;
+|     const quantityPrice = Number((selectedCampaign === null || selectedCampaign === void 0 ? void 0 : selectedCampaign.quantityPrice) || 0);
+
+Import trace for requested module:
+./src/components/donation/donation-form.tsx
+ ⨯ ./src/components/donation/donation-form.tsx
+Module parse failed: Identifier 'selectedCampaign' has already been declared (47:10)
+|     });
+|     const selectedCampaignId = watch("campaignId");
+>     const selectedCampaign = campaigns.find((c)=>c.id === selectedCampaignId);
+|     const isQuantityBased = selectedCampaign === null || selectedCampaign === void 0 ? void 0 : selectedCampaign.isQuantity;
+|     const quantityPrice = Number((selectedCampaign === null || selectedCampaign === void 0 ? void 0 : selectedCampaign.quantityPrice) || 0);
+
+Import trace for requested module:
+./src/components/donation/donation-form.tsx
+ ⨯ ./src/components/donation/donation-form.tsx
+Module parse failed: Identifier 'selectedCampaign' has already been declared (47:10)
+|     });
+|     const selectedCampaignId = watch("campaignId");
+>     const selectedCampaign = campaigns.find((c)=>c.id === selectedCampaignId);
+|     const isQuantityBased = selectedCampaign === null || selectedCampaign === void 0 ? void 0 : selectedCampaign.isQuantity;
+|     const quantityPrice = Number((selectedCampaign === null || selectedCampaign === void 0 ? void 0 : selectedCampaign.quantityPrice) || 0);
+
+Import trace for requested module:
+./src/components/donation/donation-form.tsx
+ ⨯ ./src/components/donation/donation-form.tsx
+Module parse failed: Identifier 'selectedCampaign' has already been declared (47:10)
+|     });
+|     const selectedCampaignId = watch("campaignId");
+>     const selectedCampaign = campaigns.find((c)=>c.id === selectedCampaignId);
+|     const isQuantityBased = selectedCampaign === null || selectedCampaign === void 0 ? void 0 : selectedCampaign.isQuantity;
+|     const quantityPrice = Number((selectedCampaign === null || selectedCampaign === void 0 ? void 0 : selectedCampaign.quantityPrice) || 0);
+
+Import trace for requested module:
+./src/components/donation/donation-form.tsx
+ ⨯ ./src/components/donation/donation-form.tsx
+Module parse failed: Identifier 'selectedCampaign' has already been declared (47:10)
+|     });
+|     const selectedCampaignId = watch("campaignId");
+>     const selectedCampaign = campaigns.find((c)=>c.id === selectedCampaignId);
+|     const isQuantityBased = selectedCampaign === null || selectedCampaign === void 0 ? void 0 : selectedCampaign.isQuantity;
+|     const quantityPrice = Number((selectedCampaign === null || selectedCampaign === void 0 ? void 0 : selectedCampaign.quantityPrice) || 0);
+
+Import trace for requested module:
+./src/components/donation/donation-form.tsx
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, rename 'D:\alp-abata\.next\cache\webpack\client-development\0.pack.gz_' -> 'D:\alp-abata\.next\cache\webpack\client-development\0.pack.gz'
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, rename 'D:\alp-abata\.next\cache\webpack\server-development\4.pack.gz_' -> 'D:\alp-abata\.next\cache\webpack\server-development\4.pack.gz'
+ ⨯ ./src/components/donation/donation-form.tsx
+Module parse failed: Identifier 'selectedCampaign' has already been declared (47:10)
+|     });
+|     const selectedCampaignId = watch("campaignId");
+>     const selectedCampaign = campaigns.find((c)=>c.id === selectedCampaignId);
+|     const isQuantityBased = selectedCampaign === null || selectedCampaign === void 0 ? void 0 : selectedCampaign.isQuantity;
+|     const quantityPrice = Number((selectedCampaign === null || selectedCampaign === void 0 ? void 0 : selectedCampaign.quantityPrice) || 0);
+
+Import trace for requested module:
+./src/components/donation/donation-form.tsx
+ ⨯ ./src/components/donation/donation-form.tsx
+Module parse failed: Identifier 'selectedCampaign' has already been declared (47:10)
+|     });
+|     const selectedCampaignId = watch("campaignId");
+>     const selectedCampaign = campaigns.find((c)=>c.id === selectedCampaignId);
+|     const isQuantityBased = selectedCampaign === null || selectedCampaign === void 0 ? void 0 : selectedCampaign.isQuantity;
+|     const quantityPrice = Number((selectedCampaign === null || selectedCampaign === void 0 ? void 0 : selectedCampaign.quantityPrice) || 0);
+
+Import trace for requested module:
+./src/components/donation/donation-form.tsx
+ ⨯ ./src/components/donation/donation-form.tsx
+Module parse failed: Identifier 'selectedCampaign' has already been declared (47:10)
+|     });
+|     const selectedCampaignId = watch("campaignId");
+>     const selectedCampaign = campaigns.find((c)=>c.id === selectedCampaignId);
+|     const isQuantityBased = selectedCampaign === null || selectedCampaign === void 0 ? void 0 : selectedCampaign.isQuantity;
+|     const quantityPrice = Number((selectedCampaign === null || selectedCampaign === void 0 ? void 0 : selectedCampaign.quantityPrice) || 0);
+
+Import trace for requested module:
+./src/components/donation/donation-form.tsx
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, rename 'D:\alp-abata\.next\cache\webpack\client-development\2.pack.gz_' -> 'D:\alp-abata\.next\cache\webpack\client-development\2.pack.gz'
+ ⨯ ./src/components/donation/donation-form.tsx
+Module parse failed: Identifier 'selectedCampaign' has already been declared (47:10)
+|     });
+|     const selectedCampaignId = watch("campaignId");
+>     const selectedCampaign = campaigns.find((c)=>c.id === selectedCampaignId);
+|     const isQuantityBased = selectedCampaign === null || selectedCampaign === void 0 ? void 0 : selectedCampaign.isQuantity;
+|     const quantityPrice = Number((selectedCampaign === null || selectedCampaign === void 0 ? void 0 : selectedCampaign.quantityPrice) || 0);
+
+Import trace for requested module:
+./src/components/donation/donation-form.tsx
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, rename 'D:\alp-abata\.next\cache\webpack\client-development\3.pack.gz_' -> 'D:\alp-abata\.next\cache\webpack\client-development\3.pack.gz'
+ ⨯ ./src/components/donation/donation-form.tsx
+Module parse failed: Identifier 'selectedCampaign' has already been declared (47:10)
+|     });
+|     const selectedCampaignId = watch("campaignId");
+>     const selectedCampaign = campaigns.find((c)=>c.id === selectedCampaignId);
+|     const isQuantityBased = selectedCampaign === null || selectedCampaign === void 0 ? void 0 : selectedCampaign.isQuantity;
+|     const quantityPrice = Number((selectedCampaign === null || selectedCampaign === void 0 ? void 0 : selectedCampaign.quantityPrice) || 0);
+
+Import trace for requested module:
+./src/components/donation/donation-form.tsx
+ ⨯ ./src/components/donation/donation-form.tsx
+Module parse failed: Identifier 'selectedCampaign' has already been declared (47:10)
+|     });
+|     const selectedCampaignId = watch("campaignId");
+>     const selectedCampaign = campaigns.find((c)=>c.id === selectedCampaignId);
+|     const isQuantityBased = selectedCampaign === null || selectedCampaign === void 0 ? void 0 : selectedCampaign.isQuantity;
+|     const quantityPrice = Number((selectedCampaign === null || selectedCampaign === void 0 ? void 0 : selectedCampaign.quantityPrice) || 0);
+
+Import trace for requested module:
+./src/components/donation/donation-form.tsx
+ ⨯ ./src/components/donation/donation-form.tsx
+Module parse failed: Identifier 'selectedCampaign' has already been declared (47:10)
+|     });
+|     const selectedCampaignId = watch("campaignId");
+>     const selectedCampaign = campaigns.find((c)=>c.id === selectedCampaignId);
+|     const isQuantityBased = selectedCampaign === null || selectedCampaign === void 0 ? void 0 : selectedCampaign.isQuantity;
+|     const quantityPrice = Number((selectedCampaign === null || selectedCampaign === void 0 ? void 0 : selectedCampaign.quantityPrice) || 0);
+
+Import trace for requested module:
+./src/components/donation/donation-form.tsx
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, rename 'D:\alp-abata\.next\cache\webpack\client-development\12.pack.gz_' -> 'D:\alp-abata\.next\cache\webpack\client-development\12.pack.gz'
+ ⨯ ./src/components/donation/donation-form.tsx
+Module parse failed: Identifier 'selectedCampaign' has already been declared (47:10)
+|     });
+|     const selectedCampaignId = watch("campaignId");
+>     const selectedCampaign = campaigns.find((c)=>c.id === selectedCampaignId);
+|     const isQuantityBased = selectedCampaign === null || selectedCampaign === void 0 ? void 0 : selectedCampaign.isQuantity;
+|     const quantityPrice = Number((selectedCampaign === null || selectedCampaign === void 0 ? void 0 : selectedCampaign.quantityPrice) || 0);
+
+Import trace for requested module:
+./src/components/donation/donation-form.tsx
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, rename 'D:\alp-abata\.next\cache\webpack\client-development\14.pack.gz_' -> 'D:\alp-abata\.next\cache\webpack\client-development\14.pack.gz'
+ ⨯ ./src/components/donation/donation-form.tsx
+Module parse failed: Identifier 'selectedCampaign' has already been declared (47:10)
+|     });
+|     const selectedCampaignId = watch("campaignId");
+>     const selectedCampaign = campaigns.find((c)=>c.id === selectedCampaignId);
+|     const isQuantityBased = selectedCampaign === null || selectedCampaign === void 0 ? void 0 : selectedCampaign.isQuantity;
+|     const quantityPrice = Number((selectedCampaign === null || selectedCampaign === void 0 ? void 0 : selectedCampaign.quantityPrice) || 0);
+
+Import trace for requested module:
+./src/components/donation/donation-form.tsx
+ ⨯ ./src/components/donation/donation-form.tsx
+Module parse failed: Identifier 'selectedCampaign' has already been declared (47:10)
+|     });
+|     const selectedCampaignId = watch("campaignId");
+>     const selectedCampaign = campaigns.find((c)=>c.id === selectedCampaignId);
+|     const isQuantityBased = selectedCampaign === null || selectedCampaign === void 0 ? void 0 : selectedCampaign.isQuantity;
+|     const quantityPrice = Number((selectedCampaign === null || selectedCampaign === void 0 ? void 0 : selectedCampaign.quantityPrice) || 0);
+
+Import trace for requested module:
+./src/components/donation/donation-form.tsx
+ ⨯ ./src/components/donation/donation-form.tsx
+Module parse failed: Identifier 'selectedCampaign' has already been declared (47:10)
+|     });
+|     const selectedCampaignId = watch("campaignId");
+>     const selectedCampaign = campaigns.find((c)=>c.id === selectedCampaignId);
+|     const isQuantityBased = selectedCampaign === null || selectedCampaign === void 0 ? void 0 : selectedCampaign.isQuantity;
+|     const quantityPrice = Number((selectedCampaign === null || selectedCampaign === void 0 ? void 0 : selectedCampaign.quantityPrice) || 0);
+
+Import trace for requested module:
+./src/components/donation/donation-form.tsx
+<w> [webpack.cache.PackFileCacheStrategy] Restoring pack failed from D:\alp-abata\.next\cache\webpack\client-development.pack.gz: Error: invalid code lengths set
+ ⨯ ./src/components/donation/donation-form.tsx
+Module parse failed: Identifier 'selectedCampaign' has already been declared (47:10)
+|     });
+|     const selectedCampaignId = watch("campaignId");
+>     const selectedCampaign = campaigns.find((c)=>c.id === selectedCampaignId);
+|     const isQuantityBased = selectedCampaign === null || selectedCampaign === void 0 ? void 0 : selectedCampaign.isQuantity;
+|     const quantityPrice = Number((selectedCampaign === null || selectedCampaign === void 0 ? void 0 : selectedCampaign.quantityPrice) || 0);
+
+Import trace for requested module:
+./src/components/donation/donation-form.tsx
+ ⨯ ./src/components/donation/donation-form.tsx
+Module parse failed: Identifier 'selectedCampaign' has already been declared (47:10)
+|     });
+|     const selectedCampaignId = watch("campaignId");
+>     const selectedCampaign = campaigns.find((c)=>c.id === selectedCampaignId);
+|     const isQuantityBased = selectedCampaign === null || selectedCampaign === void 0 ? void 0 : selectedCampaign.isQuantity;
+|     const quantityPrice = Number((selectedCampaign === null || selectedCampaign === void 0 ? void 0 : selectedCampaign.quantityPrice) || 0);
+
+Import trace for requested module:
+./src/components/donation/donation-form.tsx
+ ⨯ ./src/components/donation/donation-form.tsx
+Module parse failed: Identifier 'selectedCampaign' has already been declared (47:10)
+|     });
+|     const selectedCampaignId = watch("campaignId");
+>     const selectedCampaign = campaigns.find((c)=>c.id === selectedCampaignId);
+|     const isQuantityBased = selectedCampaign === null || selectedCampaign === void 0 ? void 0 : selectedCampaign.isQuantity;
+|     const quantityPrice = Number((selectedCampaign === null || selectedCampaign === void 0 ? void 0 : selectedCampaign.quantityPrice) || 0);
+
+Import trace for requested module:
+./src/components/donation/donation-form.tsx
+ ⨯ ./src/components/donation/donation-form.tsx
+Module parse failed: Identifier 'selectedCampaign' has already been declared (47:10)
+|     });
+|     const selectedCampaignId = watch("campaignId");
+>     const selectedCampaign = campaigns.find((c)=>c.id === selectedCampaignId);
+|     const isQuantityBased = selectedCampaign === null || selectedCampaign === void 0 ? void 0 : selectedCampaign.isQuantity;
+|     const quantityPrice = Number((selectedCampaign === null || selectedCampaign === void 0 ? void 0 : selectedCampaign.quantityPrice) || 0);
+
+Import trace for requested module:
+./src/components/donation/donation-form.tsx
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, rename 'D:\alp-abata\.next\cache\webpack\client-development\1.pack.gz_' -> 'D:\alp-abata\.next\cache\webpack\client-development\1.pack.gz'
+ ⨯ ./src/components/donation/donation-form.tsx
+Module parse failed: Identifier 'selectedCampaign' has already been declared (47:10)
+|     });
+|     const selectedCampaignId = watch("campaignId");
+>     const selectedCampaign = campaigns.find((c)=>c.id === selectedCampaignId);
+|     const isQuantityBased = selectedCampaign === null || selectedCampaign === void 0 ? void 0 : selectedCampaign.isQuantity;
+|     const quantityPrice = Number((selectedCampaign === null || selectedCampaign === void 0 ? void 0 : selectedCampaign.quantityPrice) || 0);
+
+Import trace for requested module:
+./src/components/donation/donation-form.tsx
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, rename 'D:\alp-abata\.next\cache\webpack\client-development\6.pack.gz_' -> 'D:\alp-abata\.next\cache\webpack\client-development\6.pack.gz'
+ ⨯ ./src/components/donation/donation-form.tsx
+Module parse failed: Identifier 'selectedCampaign' has already been declared (47:10)
+|     });
+|     const selectedCampaignId = watch("campaignId");
+>     const selectedCampaign = campaigns.find((c)=>c.id === selectedCampaignId);
+|     const isQuantityBased = selectedCampaign === null || selectedCampaign === void 0 ? void 0 : selectedCampaign.isQuantity;
+|     const quantityPrice = Number((selectedCampaign === null || selectedCampaign === void 0 ? void 0 : selectedCampaign.quantityPrice) || 0);
+
+Import trace for requested module:
+./src/components/donation/donation-form.tsx
+ ⨯ ./src/components/donation/donation-form.tsx
+Module parse failed: Identifier 'selectedCampaign' has already been declared (47:10)
+|     });
+|     const selectedCampaignId = watch("campaignId");
+>     const selectedCampaign = campaigns.find((c)=>c.id === selectedCampaignId);
+|     const isQuantityBased = selectedCampaign === null || selectedCampaign === void 0 ? void 0 : selectedCampaign.isQuantity;
+|     const quantityPrice = Number((selectedCampaign === null || selectedCampaign === void 0 ? void 0 : selectedCampaign.quantityPrice) || 0);
+
+Import trace for requested module:
+./src/components/donation/donation-form.tsx
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, rename 'D:\alp-abata\.next\cache\webpack\server-development\3.pack.gz_' -> 'D:\alp-abata\.next\cache\webpack\server-development\3.pack.gz'
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, rename 'D:\alp-abata\.next\cache\webpack\client-development\2.pack.gz_' -> 'D:\alp-abata\.next\cache\webpack\client-development\2.pack.gz'
+ ⨯ ./src/components/donation/donation-form.tsx
+Module parse failed: Identifier 'selectedCampaign' has already been declared (47:10)
+|     });
+|     const selectedCampaignId = watch("campaignId");
+>     const selectedCampaign = campaigns.find((c)=>c.id === selectedCampaignId);
+|     const isQuantityBased = selectedCampaign === null || selectedCampaign === void 0 ? void 0 : selectedCampaign.isQuantity;
+|     const quantityPrice = Number((selectedCampaign === null || selectedCampaign === void 0 ? void 0 : selectedCampaign.quantityPrice) || 0);
+
+Import trace for requested module:
+./src/components/donation/donation-form.tsx
+ ⚠ Found a change in next.config.ts. Restarting the server to apply the changes...

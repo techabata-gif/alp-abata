@@ -36,7 +36,13 @@ export async function POST(request: Request) {
         beneficiaryTarget: input.beneficiaryTarget,
         beneficiaryLabel: input.beneficiaryLabel,
         status: input.status,
-        endDate: input.endDate
+        endDate: input.endDate,
+        isQuantity: input.isQuantity || false,
+        quantityPrice: input.quantityPrice ? BigInt(input.quantityPrice) : null,
+        quantityUnit: input.quantityUnit || null,
+        showPicContact: input.showPicContact ?? true,
+        showDonationGuide: input.showDonationGuide ?? true,
+        showBankAccounts: input.showBankAccounts ?? true
       },
       include: { _count: { select: { donations: true } } }
     });

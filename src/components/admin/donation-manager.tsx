@@ -7,78 +7,31 @@ import { StatusBadge } from "@/components/ui/status-badge";
 import { formatRupiah } from "@/lib/utils";
 import { compressImage } from "@/lib/image-compression";
 import { toast } from "sonner";
+import { AdminDonationForm } from "@/components/admin/admin-donation-form";
+import type { CampaignDTO } from "@/lib/types";
 
-export function DonationManager({ initialDonations }: { initialDonations: any[] }) {
+export function DonationManager({ initialDonations, campaigns }: { initialDonations: any[], campaigns: CampaignDTO[] }) {
   const router = useRouter();
   const [donations, setDonations] = useState(initialDonations);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [editingDonation, setEditingDonation] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Form states
-  const [status, setStatus] = useState("PENDING");
-  const [amount, setAmount] = useState("");
-  const [donorName, setDonorName] = useState("");
-  const [paymentProofUrl, setPaymentProofUrl] = useState<string | null>(null);
-  const [newFile, setNewFile] = useState<File | null>(null);
-
   const openEditModal = (donation: any) => {
     setEditingDonation(donation);
-    setStatus(donation.status);
-    setAmount(donation.amount.toString());
-    setDonorName(donation.donorName);
-    setPaymentProofUrl(donation.paymentProofUrl || null);
-    setNewFile(null);
     setError(null);
-    setIsModalOpen(true);
+    setIsEditModalOpen(true);
   };
 
-  const closeModal = () => {
-    setIsModalOpen(false);
+  const closeEditModal = () => {
+    setIsEditModalOpen(false);
     setEditingDonation(null);
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setError(null);
-
-    const payload = { status, amount, donorName, paymentProofUrl };
-
-    try {
-      if (newFile) {
-        const compressed = await compressImage(newFile);
-        const formData = new FormData();
-        formData.append("file", compressed);
-        
-        const uploadRes = await fetch("/api/upload", { method: "POST", body: formData });
-        const uploadData = await uploadRes.json();
-        
-        if (!uploadRes.ok) throw new Error(uploadData.error || "Gagal mengunggah foto.");
-        payload.paymentProofUrl = uploadData.secure_url;
-      }
-
-      const res = await fetch(`/api/admin/donations/${editingDonation.id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
-      });
-
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Terjadi kesalahan");
-
-      setDonations(donations.map(d => d.id === editingDonation.id ? { ...d, ...payload } : d));
-      
-      toast.success("Donasi berhasil diperbarui.");
-      closeModal();
-      router.refresh();
-    } catch (err: any) {
-      toast.error(err.message || "Terjadi kesalahan.");
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
+  const closeAddModal = () => {
+    setIsAddModalOpen(false);
   };
 
   const handleDelete = async (id: string) => {
@@ -106,8 +59,14 @@ export function DonationManager({ initialDonations }: { initialDonations: any[] 
             <span className="flex h-8 w-8 items-center justify-center rounded-md bg-mint text-leaf">
               <HandCoins size={16} />
             </span>
-            <h2 className="font-semibold text-ink">Manajemen Laporan Transaksi</h2>
+            <h2 className="font-semibold text-ink">Daftar Donasi Masuk</h2>
           </div>
+          <button
+            onClick={() => setIsAddModalOpen(true)}
+            className="flex items-center gap-2 rounded-lg bg-leaf px-4 py-2 text-sm font-semibold text-white transition hover:bg-ink"
+          >
+            Tambah Donasi
+          </button>
         </div>
         <div className="p-0 overflow-x-auto">
           <table className="w-full text-left text-sm text-ink/80">
@@ -124,7 +83,7 @@ export function DonationManager({ initialDonations }: { initialDonations: any[] 
             <tbody className="divide-y divide-ink/5">
               {donations.map((d) => (
                 <tr key={d.id}>
-                  <td className="px-5 py-4 font-medium text-ink">{d.campaign?.title}</td>
+                  <td className="px-5 py-4 font-medium text-ink">{d.campaignTitle || "Campaign Terhapus"}</td>
                   <td className="px-5 py-4">{d.donorName}</td>
                   <td className="px-5 py-4 font-medium">{formatRupiah(Number(d.amount))}</td>
                   <td className="px-5 py-4 text-ink/70">
@@ -166,89 +125,32 @@ export function DonationManager({ initialDonations }: { initialDonations: any[] 
         </div>
       </section>
 
-      {/* Modal Form */}
-      {isModalOpen && (
+      {/* Modal Edit Donasi */}
+      {isEditModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-ink/50 backdrop-blur-sm px-4">
-          <div className="w-full max-w-lg rounded-xl bg-white p-6 shadow-xl">
-            <div className="flex items-center justify-between mb-5">
-              <h3 className="text-lg font-semibold text-ink">
-                Verifikasi / Edit Donasi
-              </h3>
-              <button onClick={closeModal} className="text-ink/50 hover:text-ink">
+          <div className="w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-xl bg-white p-6 shadow-xl scrollbar-hide">
+            <div className="flex items-center justify-between mb-2">
+              <div />
+              <button onClick={closeEditModal} className="text-ink/50 hover:text-ink">
                 <X size={20} />
               </button>
             </div>
+            <AdminDonationForm campaigns={campaigns} initialData={editingDonation} onSuccess={closeEditModal} />
+          </div>
+        </div>
+      )}
 
-            <form onSubmit={handleSubmit} className="grid gap-4">
-              <label className="grid gap-2 text-sm font-medium">
-                Nama Donatur
-                <input
-                  type="text"
-                  required
-                  value={donorName}
-                  onChange={e => setDonorName(e.target.value)}
-                  className="rounded-lg border border-ink/15 px-3 py-2.5 outline-none focus:border-leaf focus:ring-4 focus:ring-mint"
-                />
-              </label>
-
-              <label className="grid gap-2 text-sm font-medium">
-                Nominal
-                <input
-                  type="number"
-                  required
-                  value={amount}
-                  onChange={e => setAmount(e.target.value)}
-                  className="rounded-lg border border-ink/15 px-3 py-2.5 outline-none focus:border-leaf focus:ring-4 focus:ring-mint"
-                />
-              </label>
-
-              <label className="grid gap-2 text-sm font-medium">
-                Status
-                <select
-                  required
-                  value={status}
-                  onChange={e => setStatus(e.target.value)}
-                  className="rounded-lg border border-ink/15 px-3 py-2.5 outline-none focus:border-leaf focus:ring-4 focus:ring-mint"
-                >
-                  <option value="PENDING">Pending (Menunggu Verifikasi)</option>
-                  <option value="VERIFIED">Verified (Terverifikasi)</option>
-                  <option value="REJECTED">Rejected (Ditolak)</option>
-                </select>
-              </label>
-
-              <div className="grid gap-2 text-sm font-medium">
-                Bukti Transfer / Pembayaran
-                {paymentProofUrl && !newFile && (
-                  <div className="relative mb-2 inline-block w-fit">
-                    <img src={paymentProofUrl} alt="Bukti transfer" className="h-24 w-auto rounded border" />
-                    <button
-                      type="button"
-                      onClick={() => setPaymentProofUrl(null)}
-                      className="absolute -right-2 -top-2 rounded-full bg-red-600 p-1 text-white hover:bg-red-700"
-                      title="Hapus Bukti"
-                    >
-                      <X size={14} />
-                    </button>
-                  </div>
-                )}
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => setNewFile(e.target.files?.[0] || null)}
-                  className="mt-1 block w-full text-sm text-ink/70 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-leaf file:text-white hover:file:bg-ink transition overflow-hidden"
-                />
-              </div>
-
-              {error && <div className="text-sm text-red-600 bg-red-50 p-2 rounded">{error}</div>}
-
-              <div className="mt-4 flex justify-end gap-3">
-                <button type="button" onClick={closeModal} className="px-4 py-2 text-sm font-medium text-ink/70 hover:bg-cloud rounded-lg">Batal</button>
-                <button type="submit" disabled={loading} className="flex items-center gap-2 bg-leaf text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-ink">
-                  {loading && <Loader2 size={16} className="animate-spin" />}
-                  Simpan Perubahan
-                </button>
-              </div>
-            </form>
+      {/* Modal Tambah Donasi */}
+      {isAddModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-ink/50 backdrop-blur-sm px-4">
+          <div className="w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-xl bg-white p-6 shadow-xl scrollbar-hide">
+            <div className="flex items-center justify-between mb-2">
+              <div />
+              <button onClick={closeAddModal} className="text-ink/50 hover:text-ink">
+                <X size={20} />
+              </button>
+            </div>
+            <AdminDonationForm campaigns={campaigns} onSuccess={closeAddModal} />
           </div>
         </div>
       )}

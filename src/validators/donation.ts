@@ -6,6 +6,7 @@ export const publicDonationSchema = z.object({
   donorPhone: z.string().trim().optional().or(z.literal("")),
   donorEmail: z.string().email("Email tidak valid").optional().or(z.literal("")),
   amount: z.coerce.number().int().min(10000, "Donasi minimal Rp10.000"),
+  quantity: z.coerce.number().int().min(1, "Minimal jumlah 1").default(1),
   donationType: z.string().trim().min(3, "Jenis donasi wajib diisi"),
   visibility: z.enum(["PUBLIC", "ANONYMOUS"]).default("PUBLIC"),
   paymentMethod: z.string().trim().min(3).default("manual_transfer"),

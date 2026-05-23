@@ -552,3 +552,28 @@ Validation Error Count: 1
  ✓ Compiled in 1321ms (459 modules)
  ✓ Compiled in 1671ms (459 modules)
  ✓ Compiled in 1104ms (459 modules)
+ ✓ Compiled in 2.7s (1215 modules)
+ ✓ Compiled in 892ms (459 modules)
+ ✓ Compiled in 669ms (459 modules)
+ ✓ Compiled in 592ms (459 modules)
+ ✓ Compiled in 541ms (459 modules)
+   ▲ Next.js 15.5.18
+   - Local:        http://localhost:3000
+   - Network:      http://192.168.100.9:3000
+   - Environments: .env
+
+ ✓ Starting...
+ ✓ Ready in 1627ms
+ ○ Compiling / ...
+ ✓ Compiled / in 15.1s (687 modules)
+ ✓ Compiled in 6.2s (262 modules)
+ ✓ Compiled in 1010ms (262 modules)
+ ✓ Compiled in 1711ms (262 modules)
+ ✓ Compiled in 1547ms (262 modules)
+ ✓ Compiled in 1677ms (262 modules)
+ ✓ Compiled in 1582ms (262 modules)
+ ✓ Compiled in 1460ms (262 modules)
+ ✓ Compiled in 1072ms (262 modules)
+ ✓ Compiled in 1001ms (262 modules)
+ ✓ Compiled in 1203ms (262 modules)
+[?25h

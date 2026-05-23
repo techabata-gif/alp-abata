@@ -1,7 +1,6 @@
 import { getUserSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { AdminShell } from "@/components/admin/admin-shell";
-import { AdminCampaignForm } from "@/components/admin/admin-campaign-form";
 import { CampaignManager } from "@/components/admin/campaign-manager";
 import { getAdminDashboardData } from "@/lib/data";
 import { prisma } from "@/lib/prisma";
@@ -29,12 +28,8 @@ export default async function AdminCampaignsPage() {
         initials: session.name.substring(0, 2).toUpperCase()
       }}
     >
-      <div className="mx-auto max-w-7xl">
-        <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
-          <CampaignManager initialCampaigns={campaigns} programs={programs} />
-          
-          <AdminCampaignForm programs={programs} />
-        </div>
+      <div className="mx-auto max-w-6xl">
+        <CampaignManager initialCampaigns={campaigns} programs={programs} />
       </div>
     </AdminShell>
   );

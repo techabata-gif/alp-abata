@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -27,6 +27,7 @@ export function DonationForm({
   const { amount, setAmount } = useDonationStore();
   const [file, setFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
+  const [quantity, setQuantity] = useState(1);
 
   const {
     register,
@@ -51,11 +52,26 @@ export function DonationForm({
     }
   });
 
+  const selectedCampaignId = watch("campaignId");
+  const selectedCampaign = campaigns.find((c) => c.id === selectedCampaignId);
+  const isQuantityBased = selectedCampaign?.isQuantity;
+  const quantityPrice = Number(selectedCampaign?.quantityPrice || 0);
+  const quantityUnit = selectedCampaign?.quantityUnit || "Paket";
   const selectedAmount = watch("amount");
   const visibility = watch("visibility");
-  const selectedCampaignId = watch("campaignId");
-  const selectedCampaign = campaigns.find(c => c.id === selectedCampaignId);
   const picContact = selectedCampaign?.picContact;
+
+  useEffect(() => {
+    setValue("campaignId", defaultCampaignId ?? campaigns[0]?.id);
+  }, [defaultCampaignId, campaigns, setValue]);
+
+  useEffect(() => {
+    if (isQuantityBased) {
+      const newAmount = quantity * quantityPrice;
+      setValue("amount", newAmount);
+      setAmount(newAmount);
+    }
+  }, [quantity, isQuantityBased, quantityPrice, setValue, setAmount]);
 
   function chooseAmount(nextAmount: number) {
     setAmount(nextAmount);
@@ -86,6 +102,7 @@ export function DonationForm({
 
       const payloadToSend = {
         ...values,
+        quantity: isQuantityBased ? quantity : 1,
         paymentProofUrl
       };
 
@@ -111,7 +128,6 @@ export function DonationForm({
         message: ""
       });
       setFile(null);
-      // reset file input
       const fileInput = document.getElementById("paymentProof") as HTMLInputElement;
       if (fileInput) fileInput.value = "";
       
@@ -157,62 +173,95 @@ export function DonationForm({
           ) : null}
         </label>
 
-        <div className="grid gap-2">
-          <span className="text-sm font-medium text-ink">Nominal</span>
-          <div className="grid grid-cols-2 gap-2 sm:grid-cols-5">
-            {amountPresets.map((preset) => (
-              <button
-                key={preset}
-                type="button"
-                onClick={() => chooseAmount(preset)}
-                className={
-                  selectedAmount === preset
-                    ? "rounded-lg bg-leaf px-3 py-3 text-sm font-semibold text-white"
-                    : "rounded-lg border border-ink/10 bg-white px-3 py-3 text-sm font-semibold text-ink transition hover:border-leaf hover:text-leaf"
-                }
-              >
-                {formatRupiah(preset)}
-              </button>
-            ))}
+        {!isQuantityBased && (
+          <div className="grid gap-2">
+            <span className="text-sm font-medium text-ink">Nominal</span>
+            <div className="grid grid-cols-2 gap-2 sm:grid-cols-5">
+              {amountPresets.map((preset) => (
+                <button
+                  key={preset}
+                  type="button"
+                  onClick={() => chooseAmount(preset)}
+                  className={
+                    selectedAmount === preset
+                      ? "rounded-lg bg-leaf px-3 py-3 text-sm font-semibold text-white"
+                      : "rounded-lg border border-ink/10 bg-white px-3 py-3 text-sm font-semibold text-ink transition hover:border-leaf hover:text-leaf"
+                  }
+                >
+                  {formatRupiah(preset)}
+                </button>
+              ))}
+            </div>
+            <input
+              {...register("amount")}
+              inputMode="numeric"
+              className="rounded-lg border border-ink/15 bg-white px-3 py-3 text-sm outline-none transition focus:border-leaf focus:ring-4 focus:ring-mint"
+              placeholder="Nominal lain"
+            />
+            {errors.amount ? (
+              <span className="text-xs text-red-600">{errors.amount.message}</span>
+            ) : null}
           </div>
-          <input
-            {...register("amount")}
-            inputMode="numeric"
-            className="rounded-lg border border-ink/15 bg-white px-3 py-3 text-sm outline-none transition focus:border-leaf focus:ring-4 focus:ring-mint"
-            placeholder="Nominal lain"
-          />
-          {errors.amount ? (
-            <span className="text-xs text-red-600">{errors.amount.message}</span>
-          ) : null}
-        </div>
+        )}
 
         <div className="grid gap-4 sm:grid-cols-2">
           <label className="grid gap-2 text-sm font-medium text-ink">
-            Nama
+            Nama Anda
             <input
               {...register("donorName")}
-              className="rounded-lg border border-ink/15 bg-white px-3 py-3 text-sm outline-none transition focus:border-leaf focus:ring-4 focus:ring-mint"
-              placeholder="Nama donatur"
+              className="mt-2 rounded-lg border border-ink/15 bg-white px-3 py-3 text-sm outline-none transition focus:border-leaf focus:ring-4 focus:ring-mint"
+              placeholder="Nama lengkap"
             />
-            {errors.donorName ? (
+            {errors.donorName && (
               <span className="text-xs text-red-600">{errors.donorName.message}</span>
-            ) : null}
+            )}
           </label>
-
-          <label className="grid gap-2 text-sm font-medium text-ink">
-            Jenis donasi
-            <input
-              {...register("donationType")}
-              className="rounded-lg border border-ink/15 bg-white px-3 py-3 text-sm outline-none transition focus:border-leaf focus:ring-4 focus:ring-mint"
-              placeholder="Donasi umum, zakat, qurban, beasiswa"
-            />
-            {errors.donationType ? (
-              <span className="text-xs text-red-600">
-                {errors.donationType.message}
-              </span>
-            ) : null}
-          </label>
+          {isQuantityBased ? (
+            <div className="grid gap-2 text-sm font-medium text-ink">
+              Jumlah {quantityUnit}
+              <div className="mt-2 flex items-center h-[46px] rounded-lg border border-ink/15 bg-white overflow-hidden">
+                <button
+                  type="button"
+                  onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                  className="flex h-full w-12 items-center justify-center bg-cloud hover:bg-ink/10 transition text-ink font-bold"
+                >
+                  -
+                </button>
+                <div className="flex-1 text-center font-semibold text-ink">
+                  {quantity}
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setQuantity(quantity + 1)}
+                  className="flex h-full w-12 items-center justify-center bg-cloud hover:bg-ink/10 transition text-ink font-bold"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+          ) : (
+            <label className="grid gap-2 text-sm font-medium text-ink">
+              Jenis donasi
+              <input
+                {...register("donationType")}
+                className="mt-2 rounded-lg border border-ink/15 bg-white px-3 py-3 text-sm outline-none transition focus:border-leaf focus:ring-4 focus:ring-mint"
+                placeholder="Donasi umum, zakat, qurban, beasiswa"
+              />
+              {errors.donationType ? (
+                <span className="text-xs text-red-600">
+                  {errors.donationType.message}
+                </span>
+              ) : null}
+            </label>
+          )}
         </div>
+
+        {isQuantityBased && (
+          <div className="rounded-lg bg-mint/20 p-4 border border-leaf/20 flex items-center justify-between">
+            <span className="text-sm font-medium text-ink/80">Total Pembayaran:</span>
+            <span className="text-lg font-bold text-leaf">{formatRupiah(quantity * quantityPrice)}</span>
+          </div>
+        )}
 
         <div className="grid gap-4 sm:grid-cols-2">
           <label className="grid gap-2 text-sm font-medium text-ink">

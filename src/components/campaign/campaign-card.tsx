@@ -21,6 +21,12 @@ export function CampaignCard({ campaign }: CampaignCardProps) {
     campaign.targetAmount
   );
   const daysLeft = getDaysLeft(campaign.endDate);
+  
+  const isQuantity = campaign.isQuantity && !!campaign.quantityPrice;
+  const targetQuantity = isQuantity ? Math.floor(campaign.targetAmount / campaign.quantityPrice!) : 0;
+  const collectedQuantity = isQuantity ? Math.floor(campaign.collectedAmount / campaign.quantityPrice!) : 0;
+  const missingAmount = Math.max(0, campaign.targetAmount - campaign.collectedAmount);
+  const unit = campaign.quantityUnit || "paket";
 
   return (
     <article className="overflow-hidden rounded-lg border border-ink/10 bg-white shadow-soft">
@@ -49,6 +55,17 @@ export function CampaignCard({ campaign }: CampaignCardProps) {
           {campaign.shortDescription ?? campaign.description}
         </p>
         <div>
+          <div className="mb-3">
+            {progress >= 100 ? (
+              <span className="inline-flex items-center rounded-lg bg-mint px-2.5 py-1 text-xs font-semibold text-leaf">
+                Terpenuhi
+              </span>
+            ) : (
+              <span className="inline-flex items-center rounded-lg bg-sun/20 px-2.5 py-1 text-xs font-semibold text-amber-800">
+                Berjalan
+              </span>
+            )}
+          </div>
           <div className="mb-2 flex items-center justify-between text-sm">
             <span className="font-semibold text-ink">
               {formatRupiah(campaign.collectedAmount)}
@@ -59,9 +76,18 @@ export function CampaignCard({ campaign }: CampaignCardProps) {
             collected={campaign.collectedAmount}
             target={campaign.targetAmount}
           />
-          <p className="mt-2 text-xs text-ink/58">
-            Target {formatRupiah(campaign.targetAmount)}
-          </p>
+          <div className="mt-2 flex items-center justify-between text-xs text-ink/58">
+            <span>Target {formatRupiah(campaign.targetAmount)}</span>
+            {isQuantity ? (
+              <span className={progress >= 100 ? "font-semibold text-leaf" : "font-medium text-red-600"}>
+                {collectedQuantity}/{targetQuantity} {unit} terpenuhi
+              </span>
+            ) : (
+              <span className={progress >= 100 ? "font-semibold text-leaf" : "font-medium text-red-600"}>
+                {progress >= 100 ? "Target terpenuhi" : `Kurang: ${formatRupiah(missingAmount)}`}
+              </span>
+            )}
+          </div>
         </div>
         <div className="grid grid-cols-2 gap-3 text-sm text-ink/68">
           <span className="inline-flex items-center gap-2">

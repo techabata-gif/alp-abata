@@ -31,7 +31,16 @@ export function mapCampaign(campaign: CampaignWithCount): CampaignDTO {
     startDate: campaign.startDate?.toISOString() ?? null,
     endDate: campaign.endDate?.toISOString() ?? null,
     createdAt: campaign.createdAt.toISOString(),
-    donationCount: campaign._count?.donations ?? 0
+    donationCount: campaign._count?.donations ?? 0,
+    isQuantity: campaign.isQuantity,
+    quantityPrice: campaign.quantityPrice ? Number(campaign.quantityPrice) : null,
+    quantityUnit: campaign.quantityUnit,
+    // @ts-ignore
+    showPicContact: campaign.showPicContact ?? true,
+    // @ts-ignore
+    showDonationGuide: campaign.showDonationGuide ?? true,
+    // @ts-ignore
+    showBankAccounts: campaign.showBankAccounts ?? true
   };
 }
 
@@ -45,11 +54,13 @@ export function mapDonation(donation: DonationWithCampaign): DonationDTO {
     donorPhone: donation.donorPhone,
     donorEmail: donation.donorEmail,
     amount: Number(donation.amount),
+    quantity: Number(donation.quantity),
     donationType: donation.donationType,
     visibility: donation.visibility,
     status: donation.status,
     paymentMethod: donation.paymentMethod,
     paymentReference: donation.paymentReference,
+    paymentProofUrl: donation.paymentProofUrl ?? null,
     message: donation.message,
     verifiedAt: donation.verifiedAt?.toISOString() ?? null,
     createdAt: donation.createdAt.toISOString()

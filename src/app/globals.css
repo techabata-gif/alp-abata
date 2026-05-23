@@ -40,3 +40,12 @@ textarea {
   background: #dff6ea;
   color: #10221d;
 }
+
+/* Global UX enhancements for interaction */
+button {
+  transition: transform 0.15s ease-in-out, background-color 0.15s ease-in-out, opacity 0.15s ease-in-out;
+}
+
+button:active:not(:disabled) {
+  transform: scale(0.96);
+}

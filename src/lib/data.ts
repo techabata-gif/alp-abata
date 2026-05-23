@@ -7,13 +7,14 @@ type LandingData = {
   campaigns: CampaignDTO[];
   recentDonations: DonationDTO[];
   reports: ReportDTO[];
+  settings: Record<string, string>;
 };
 
 export async function getLandingData(): Promise<LandingData> {
   noStore();
 
   try {
-    const [campaigns, donations, reports] = await Promise.all([
+    const [campaigns, donations, reports, settings] = await Promise.all([
       prisma.campaign.findMany({
         where: { status: "ACTIVE" },
         orderBy: { createdAt: "desc" },
@@ -28,19 +29,37 @@ export async function getLandingData(): Promise<LandingData> {
       prisma.report.findMany({
         orderBy: { publishedAt: "desc" },
         take: 4
-      })
+      }),
+      (prisma.appSetting ? prisma.appSetting.findMany() : Promise.resolve([]))
     ]);
 
+    const settingsObject = settings.reduce((acc, curr) => {
+      acc[curr.key] = curr.value;
+      return acc;
+    }, {} as Record<string, string>);
+
+    const mappedCampaigns = campaigns.map(mapCampaign);
+    mappedCampaigns.sort((a, b) => {
+      const aFulfilled = a.collectedAmount >= a.targetAmount;
+      const bFulfilled = b.collectedAmount >= b.targetAmount;
+      if (aFulfilled && !bFulfilled) return 1;
+      if (!aFulfilled && bFulfilled) return -1;
+      return 0;
+    });
+
     return {
-      campaigns: campaigns.map(mapCampaign),
+      campaigns: mappedCampaigns,
       recentDonations: donations.map(mapDonation),
-      reports: reports.map(mapReport)
+      reports: reports.map(mapReport),
+      settings: settingsObject
     };
   } catch (error) {
+    console.error("Error fetching landing data:", error);
     return {
       campaigns: [],
       recentDonations: [],
-      reports: []
+      reports: [],
+      settings: {}
     };
   }
 }
@@ -58,7 +77,7 @@ export async function getCampaignBySlug(slug: string) {
       return null;
     }
 
-    const [donations, reports] = await Promise.all([
+    const [donations, reports, settings] = await Promise.all([
       prisma.donation.findMany({
         where: { campaignId: campaign.id, status: "VERIFIED" },
         orderBy: { createdAt: "desc" },
@@ -69,13 +88,20 @@ export async function getCampaignBySlug(slug: string) {
         where: { campaignId: campaign.id },
         orderBy: { publishedAt: "desc" },
         take: 6
-      })
+      }),
+      (prisma.appSetting ? prisma.appSetting.findMany() : Promise.resolve([]))
     ]);
+
+    const settingsObject = settings.reduce((acc, curr) => {
+      acc[curr.key] = curr.value;
+      return acc;
+    }, {} as Record<string, string>);
 
     return {
       campaign: mapCampaign(campaign),
       donations: donations.map(mapDonation),
-      reports: reports.map(mapReport)
+      reports: reports.map(mapReport),
+      settings: settingsObject
     };
   } catch (error) {
     return null;

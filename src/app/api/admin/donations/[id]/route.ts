@@ -22,10 +22,20 @@ export async function PUT(
 
     // Prepare update data
     const updateData: any = {
-      status: data.status,
-      donorName: data.donorName,
-      amount: BigInt(data.amount),
+      campaignId: data.campaignId !== undefined ? data.campaignId : donation.campaignId,
+      status: data.status !== undefined ? data.status : donation.status,
+      donorName: data.donorName !== undefined ? data.donorName : donation.donorName,
+      amount: data.amount !== undefined ? BigInt(data.amount) : donation.amount,
+      quantity: data.quantity !== undefined ? Number(data.quantity) : donation.quantity,
+      donationType: data.donationType !== undefined ? data.donationType : donation.donationType,
+      visibility: data.visibility !== undefined ? data.visibility : donation.visibility,
+      paymentMethod: data.paymentMethod !== undefined ? data.paymentMethod : donation.paymentMethod,
+      paymentReference: data.paymentReference !== undefined ? data.paymentReference : donation.paymentReference,
     };
+
+    if (data.paymentProofUrl !== undefined) {
+      updateData.paymentProofUrl = data.paymentProofUrl;
+    }
 
     // If changing to VERIFIED and it wasn't verified before
     if (data.status === "VERIFIED" && donation.status !== "VERIFIED") {
@@ -33,6 +43,8 @@ export async function PUT(
     } else if (data.status !== "VERIFIED") {
       updateData.verifiedAt = null;
     }
+
+    const oldCampaignId = donation.campaignId;
 
     const updated = await prisma.$transaction(async (tx) => {
       const updatedDonation = await tx.donation.update({
@@ -51,6 +63,18 @@ export async function PUT(
         where: { id: updatedDonation.campaignId },
         data: { collectedAmount: allVerified._sum.amount || 0n }
       });
+
+      // If campaign changed, recalculate old campaign
+      if (oldCampaignId !== updatedDonation.campaignId) {
+        const allVerifiedOld = await tx.donation.aggregate({
+          where: { campaignId: oldCampaignId, status: "VERIFIED" },
+          _sum: { amount: true }
+        });
+        await tx.campaign.update({
+          where: { id: oldCampaignId },
+          data: { collectedAmount: allVerifiedOld._sum.amount || 0n }
+        });
+      }
 
       return updatedDonation;
     });

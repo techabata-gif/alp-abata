@@ -80,6 +80,12 @@ model Campaign {
   beneficiaryLabel   String?
   picContact         String?
   coverImageUrl      String?
+  isQuantity         Boolean        @default(false)
+  quantityPrice      BigInt?
+  quantityUnit       String?
+  showPicContact     Boolean        @default(true)
+  showDonationGuide  Boolean        @default(true)
+  showBankAccounts   Boolean        @default(true)
   status             CampaignStatus @default(ACTIVE)
   startDate          DateTime?
   endDate            DateTime?
@@ -103,6 +109,7 @@ model Donation {
   donorPhone       String?
   donorEmail       String?
   amount           BigInt
+  quantity         Int?
   donationType     String             @default("Donasi")
   visibility       DonationVisibility @default(PUBLIC)
   status           DonationStatus     @default(PENDING)
@@ -151,4 +158,12 @@ model Report {
 
   @@index([campaignId])
   @@map("reports")
+}
+
+model AppSetting {
+  key       String   @id
+  value     String   @db.Text
+  updatedAt DateTime @updatedAt
+
+  @@map("app_settings")
 }

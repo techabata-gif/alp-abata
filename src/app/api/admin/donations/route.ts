@@ -16,11 +16,13 @@ export async function POST(request: Request) {
           donorPhone: input.donorPhone,
           donorEmail: input.donorEmail,
           amount: BigInt(input.amount),
+          quantity: input.quantity ?? 1,
           donationType: input.donationType,
           visibility: input.visibility,
           status: input.status,
           paymentMethod: input.paymentMethod,
           paymentReference: input.paymentReference,
+          paymentProofUrl: (input as any).paymentProofUrl || null,
           message: input.message,
           verifiedAt: input.status === "VERIFIED" ? new Date() : null,
           paymentLogs: {
