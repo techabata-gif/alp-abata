@@ -216,7 +216,7 @@ export default async function Home() {
                 Transparansi
               </p>
               <h2 className="mt-2 text-3xl font-semibold text-ink">
-                Donasi terbaru
+                Daftar Donasi
               </h2>
               <div className="mt-6 divide-y divide-ink/10 rounded-lg border border-ink/10">
                 {recentDonations.map((donation) => (

@@ -4,7 +4,7 @@ MVP platform donasi dan penggalangan dana berbasis Next.js, Prisma, dan PostgreS
 
 ## Fitur MVP
 
-- Landing page dengan progress campaign dan donasi terbaru.
+- Landing page dengan progress campaign dan daftar donasi.
 - Campaign umum, tidak terbatas untuk qurban.
 - Detail campaign dengan progress polling berkala.
 - Form donasi publik dengan status awal `PENDING`.

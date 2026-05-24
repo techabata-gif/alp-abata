@@ -52,7 +52,7 @@ export function DonationStatusTable({ donations }: DonationStatusTableProps) {
     <section className="rounded-lg border border-ink/10 bg-white p-5 shadow-soft">
       <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h2 className="text-lg font-semibold text-ink">Donasi terbaru</h2>
+          <h2 className="text-lg font-semibold text-ink">Daftar Donasi</h2>
           <p className="text-sm text-ink/60">Verifikasi manual langsung mengubah progress.</p>
         </div>
       </div>

@@ -268,7 +268,7 @@ export default async function CampaignPage({ params }: CampaignPageProps) {
 
           <div className="space-y-8">
             <section className="rounded-lg border border-ink/10 bg-white p-5 shadow-soft">
-              <h2 className="text-lg font-semibold text-ink">Donasi terbaru</h2>
+              <h2 className="text-lg font-semibold text-ink">Daftar Donasi</h2>
               <div className="mt-4 divide-y divide-ink/10">
                 {donations.map((donation) => (
                   <div
