@@ -2,11 +2,22 @@ export type CampaignStatus = "DRAFT" | "ACTIVE" | "CLOSED";
 export type DonationStatus = "PENDING" | "VERIFIED" | "REJECTED";
 export type DonationVisibility = "PUBLIC" | "ANONYMOUS";
 
-export type CampaignDTO = {
+export interface CategoryDTO {
+  id: string;
+  name: string;
+  icon?: string | null;
+  description?: string | null;
+  programId: string | null;
+}
+
+export interface CampaignDTO {
   id: string;
   title: string;
   slug: string;
   category: string;
+  categoryId?: string | null;
+  categoryModel?: CategoryDTO | null;
+  programId?: string | null;
   shortDescription: string | null;
   description: string;
   targetAmount: number;
@@ -56,6 +67,19 @@ export type ReportDTO = {
   imageUrl: string | null;
   amountUsed: number | null;
   publishedAt: string;
+};
+
+export type ProgramDTO = {
+  id: string;
+  title: string;
+  slug: string;
+  description: string | null;
+  imageUrl: string | null;
+  targetAmount: number | null;
+  isActive: boolean;
+  isFeatured: boolean;
+  campaignCount: number;
+  createdAt: string;
 };
 
 export type AdminSummary = {

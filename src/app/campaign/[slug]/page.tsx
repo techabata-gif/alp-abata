@@ -9,6 +9,7 @@ import { SiteHeader } from "@/components/layout/site-header";
 import { formatNumber, formatRupiah, getDaysLeft } from "@/lib/utils";
 import { getCampaignBySlug } from "@/lib/data";
 import { CopyButton } from "@/components/ui/copy-button";
+import { BackButton } from "@/components/ui/back-button";
 
 export const dynamic = "force-dynamic";
 
@@ -108,13 +109,7 @@ export default async function CampaignPage({ params }: CampaignPageProps) {
           />
           <div className="absolute inset-0 bg-ink/64" />
           <div className="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-            <Link
-              href="/"
-              className="inline-flex items-center gap-2 rounded-lg border border-white/25 px-3 py-2 text-sm font-semibold text-white transition hover:bg-white hover:text-ink"
-            >
-              <ArrowLeft size={17} aria-hidden="true" />
-              Kembali
-            </Link>
+            <BackButton />
             <div className="mt-10 max-w-3xl">
               <p className="text-sm font-semibold uppercase tracking-normal text-sun">
                 {campaign.category}

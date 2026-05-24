@@ -41,8 +41,8 @@ export default function LoginPage() {
     <div className="flex min-h-screen items-center justify-center bg-cloud px-4">
       <div className="w-full max-w-md rounded-xl border border-ink/10 bg-white p-6 shadow-soft sm:p-8">
         <div className="flex flex-col items-center gap-3">
-          <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-leaf text-white shadow-sm">
-            <ShieldCheck size={24} aria-hidden="true" />
+          <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-leaf shadow-sm overflow-hidden">
+            <img src="/logo.png" alt="Abata Logo" className="h-full w-full object-contain" />
           </span>
           <h1 className="text-2xl font-bold text-ink">Admin Login</h1>
           <p className="text-sm text-ink/60">Masuk untuk mengelola platform</p>

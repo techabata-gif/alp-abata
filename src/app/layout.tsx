@@ -12,11 +12,11 @@ export const metadata: Metadata = {
     template: "%s | Abata Leaderss Peduli"
   },
   description:
-    "Platform penggalangan dana transparan untuk yayasan, sekolah, DKM, komunitas, dan campaign sosial.",
+    "Platform transparansi Abata Leaderss Peduli dalam program Qurban, Bakti Sosial dan Program Sosial lainnya, terdiri dari laporan pengumpulan dana dan distribusi penerima manfaat.",
   openGraph: {
     title: "Abata Leaderss Peduli",
     description:
-      "Kelola campaign, catat donasi manual, dan tampilkan progress dana secara transparan.",
+      "Pantau terus jejak kebaikan Anda. Progress penggalangan dana dan laporan penyaluran diperbarui secara aktual dan transparan.",
     type: "website"
   }
 };
@@ -27,7 +27,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="id">
+    <html lang="id" className="scroll-smooth">
       <body className={`${inter.className} bg-cloud text-ink selection:bg-leaf/20`}>
         <NextTopLoader color="#16a34a" showSpinner={false} />
         {children}

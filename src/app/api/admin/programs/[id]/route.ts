@@ -11,14 +11,18 @@ export async function PUT(
   if (check.error) return NextResponse.json({ error: check.error }, { status: check.status });
 
   try {
-    const { title, slug, description } = await request.json();
+    const { title, slug, description, imageUrl, targetAmount, isActive, isFeatured } = await request.json();
 
     const program = await prisma.program.update({
       where: { id },
       data: {
         title,
         slug,
-        description
+        description,
+        imageUrl: imageUrl || null,
+        targetAmount: targetAmount ? BigInt(targetAmount) : null,
+        isActive: isActive ?? true,
+        isFeatured: isFeatured ?? false
       }
     });
 

@@ -1,6 +1,6 @@
 import { unstable_noStore as noStore } from "next/cache";
 import { prisma } from "@/lib/prisma";
-import { mapCampaign, mapDonation, mapReport } from "@/lib/mappers";
+import { mapCampaign, mapDonation, mapReport, mapProgram } from "@/lib/mappers";
 import type { AdminSummary, CampaignDTO, DonationDTO, ReportDTO } from "@/lib/types";
 
 type LandingData = {
@@ -8,13 +8,14 @@ type LandingData = {
   recentDonations: DonationDTO[];
   reports: ReportDTO[];
   settings: Record<string, string>;
+  programs: import("@/lib/types").ProgramDTO[];
 };
 
 export async function getLandingData(): Promise<LandingData> {
   noStore();
 
   try {
-    const [campaigns, donations, reports, settings] = await Promise.all([
+    const [campaigns, donations, reports, settings, programs] = await Promise.all([
       prisma.campaign.findMany({
         where: { status: "ACTIVE" },
         orderBy: { createdAt: "desc" },
@@ -30,7 +31,12 @@ export async function getLandingData(): Promise<LandingData> {
         orderBy: { publishedAt: "desc" },
         take: 4
       }),
-      (prisma.appSetting ? prisma.appSetting.findMany() : Promise.resolve([]))
+      (prisma.appSetting ? prisma.appSetting.findMany() : Promise.resolve([])),
+      prisma.program.findMany({
+        where: { isActive: true, isFeatured: true },
+        orderBy: { createdAt: "desc" },
+        include: { _count: { select: { campaigns: true } } }
+      })
     ]);
 
     const settingsObject = settings.reduce((acc, curr) => {
@@ -51,7 +57,8 @@ export async function getLandingData(): Promise<LandingData> {
       campaigns: mappedCampaigns,
       recentDonations: donations.map(mapDonation),
       reports: reports.map(mapReport),
-      settings: settingsObject
+      settings: settingsObject,
+      programs: programs.map(mapProgram)
     };
   } catch (error) {
     console.error("Error fetching landing data:", error);
@@ -59,8 +66,52 @@ export async function getLandingData(): Promise<LandingData> {
       campaigns: [],
       recentDonations: [],
       reports: [],
-      settings: {}
+      settings: {},
+      programs: []
     };
+  }
+}
+
+export async function getProgramBySlug(slug: string) {
+  noStore();
+  try {
+    const program = await prisma.program.findUnique({
+      where: { slug },
+      include: {
+        _count: { select: { campaigns: true } },
+        campaigns: {
+          where: { status: "ACTIVE" },
+          orderBy: { createdAt: "desc" },
+          include: { _count: { select: { donations: true } } }
+        }
+      }
+    });
+
+    if (!program || !program.isActive) return null;
+
+    const mappedProgram = mapProgram(program);
+    const mappedCampaigns = program.campaigns.map(mapCampaign);
+
+    let totalTarget = mappedProgram.targetAmount || 0;
+    let totalCollected = 0;
+
+    mappedCampaigns.forEach(c => {
+      if (!mappedProgram.targetAmount) {
+        totalTarget += c.targetAmount;
+      }
+      totalCollected += c.collectedAmount;
+    });
+
+    return {
+      program: {
+        ...mappedProgram,
+        aggregatedTarget: totalTarget,
+        aggregatedCollected: totalCollected
+      },
+      campaigns: mappedCampaigns
+    };
+  } catch {
+    return null;
   }
 }
 
