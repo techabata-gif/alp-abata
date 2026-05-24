@@ -23,9 +23,9 @@ export async function generateMetadata(
   
   if (!data) return {};
 
-  const title = `${data.title} - Abata Leaderss Peduli`;
-  const description = data.description || "Mari berdonasi dan wujudkan kebaikan bersama Abata Leaderss Peduli.";
-  const imageUrl = data.imageUrl || "/logo.png";
+  const title = `${data.campaign.title} - Abata Leaderss Peduli`;
+  const description = data.campaign.shortDescription || "Mari berdonasi dan wujudkan kebaikan bersama Abata Leaderss Peduli.";
+  const imageUrl = data.campaign.coverImageUrl || "/logo.png";
 
   return {
     title,
