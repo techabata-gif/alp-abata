@@ -55,26 +55,53 @@ export function AdminShell({ children, title, description, user }: AdminShellPro
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const [passwordOpen, setPasswordOpen] = useState(false);
-  const [passwordMessage, setPasswordMessage] = useState<string | null>(null);
+  const [passwordMessage, setPasswordMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null);
+  const [isSubmittingPassword, setIsSubmittingPassword] = useState(false);
 
-  function submitPassword(event: FormEvent<HTMLFormElement>) {
+  async function submitPassword(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
+    const currentPassword = String(formData.get("currentPassword") ?? "");
     const nextPassword = String(formData.get("newPassword") ?? "");
     const confirmPassword = String(formData.get("confirmPassword") ?? "");
 
+    if (!currentPassword) {
+      setPasswordMessage({ type: 'error', text: "Password lama wajib diisi." });
+      return;
+    }
+
     if (nextPassword.length < 8) {
-      setPasswordMessage("Password baru minimal 8 karakter.");
+      setPasswordMessage({ type: 'error', text: "Password baru minimal 8 karakter." });
       return;
     }
 
     if (nextPassword !== confirmPassword) {
-      setPasswordMessage("Konfirmasi password belum sama.");
+      setPasswordMessage({ type: 'error', text: "Konfirmasi password belum sama." });
       return;
     }
 
-    setPasswordMessage("Password admin demo berhasil diperbarui.");
-    event.currentTarget.reset();
+    try {
+      setIsSubmittingPassword(true);
+      const res = await fetch("/api/auth/change-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ currentPassword, newPassword: nextPassword }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setPasswordMessage({ type: 'error', text: data.error || "Gagal memperbarui password." });
+        return;
+      }
+
+      setPasswordMessage({ type: 'success', text: "Password berhasil diperbarui." });
+      event.currentTarget.reset();
+    } catch (error) {
+      setPasswordMessage({ type: 'error', text: "Terjadi kesalahan server." });
+    } finally {
+      setIsSubmittingPassword(false);
+    }
   }
 
   async function logout() {
@@ -320,24 +347,26 @@ export function AdminShell({ children, title, description, user }: AdminShellPro
               </label>
 
               {passwordMessage ? (
-                <div className="rounded-lg bg-mint px-3 py-3 text-sm font-medium text-leaf">
-                  {passwordMessage}
+                <div className={`rounded-lg px-3 py-3 text-sm font-medium ${passwordMessage.type === 'error' ? 'bg-red-50 text-red-600' : 'bg-mint text-leaf'}`}>
+                  {passwordMessage.text}
                 </div>
               ) : null}
 
               <div className="flex justify-end gap-2 pt-2">
                 <button
                   type="button"
-                  className="rounded-lg border border-ink/10 px-4 py-3 text-sm font-semibold text-ink transition hover:border-leaf hover:text-leaf"
+                  disabled={isSubmittingPassword}
+                  className="rounded-lg border border-ink/10 px-4 py-3 text-sm font-semibold text-ink transition hover:border-leaf hover:text-leaf disabled:opacity-50"
                   onClick={() => setPasswordOpen(false)}
                 >
                   Batal
                 </button>
                 <button
                   type="submit"
-                  className="rounded-lg bg-leaf px-4 py-3 text-sm font-semibold text-white transition hover:bg-ink"
+                  disabled={isSubmittingPassword}
+                  className="rounded-lg bg-leaf px-4 py-3 text-sm font-semibold text-white transition hover:bg-ink disabled:opacity-50"
                 >
-                  Simpan password
+                  {isSubmittingPassword ? "Menyimpan..." : "Simpan password"}
                 </button>
               </div>
             </form>
