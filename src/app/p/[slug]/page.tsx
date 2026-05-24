@@ -6,7 +6,39 @@ import { CampaignCard } from "@/components/campaign/campaign-card";
 import { BackButton } from "@/components/ui/back-button";
 import { prisma } from "@/lib/prisma";
 
+import type { Metadata } from "next";
+
 export const dynamic = "force-dynamic";
+
+export async function generateMetadata(
+  props: { params: Promise<{ slug: string }> }
+): Promise<Metadata> {
+  const params = await props.params;
+  const data = await getProgramBySlug(params.slug);
+  
+  if (!data) return {};
+
+  const title = `${data.program.title} - Abata Leaderss Peduli`;
+  const description = data.program.description || "Mari berpartisipasi dan wujudkan program kebaikan bersama Abata Leaderss Peduli.";
+  const imageUrl = data.program.imageUrl || "/logo.png";
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      images: [{ url: imageUrl }],
+      type: "article",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [imageUrl],
+    },
+  };
+}
 
 export default async function ProgramPage(props: { params: Promise<{ slug: string }> }) {
   const params = await props.params;

@@ -2,24 +2,44 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Toaster } from "sonner";
 import NextTopLoader from "nextjs-toploader";
+import { prisma } from "@/lib/prisma";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export const metadata: Metadata = {
-  title: {
-    default: "ALP #Berdampak",
-    template: "%s | Abata Leaderss Peduli"
-  },
-  description:
-    "Platform transparansi Abata Leaderss Peduli dalam program Qurban, Bakti Sosial dan Program Sosial lainnya, terdiri dari laporan pengumpulan dana dan distribusi penerima manfaat.",
-  openGraph: {
-    title: "Abata Leaderss Peduli",
-    description:
-      "Pantau terus jejak kebaikan Anda. Progress penggalangan dana dan laporan penyaluran diperbarui secara aktual dan transparan.",
-    type: "website"
-  }
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const settings = await prisma.appSetting.findMany();
+  const heroImage = settings.find(s => s.key === "landing_hero_image")?.value || "/assets/hero-donation.png";
+  const titleStr = settings.find(s => s.key === "landing_hero_title")?.value || "ALP #Berdampak";
+
+  return {
+    title: {
+      default: titleStr,
+      template: "%s | Abata Leaderss Peduli"
+    },
+    description: "Platform transparansi Abata Leaderss Peduli dalam program Qurban, Bakti Sosial dan Program Sosial lainnya, terdiri dari laporan pengumpulan dana dan distribusi penerima manfaat.",
+    openGraph: {
+      title: "Abata Leaderss Peduli",
+      description: "Pantau terus jejak kebaikan Anda. Progress penggalangan dana dan laporan penyaluran diperbarui secara aktual dan transparan.",
+      type: "website",
+      siteName: "Abata Leaderss Peduli",
+      images: [
+        {
+          url: heroImage,
+          width: 1200,
+          height: 630,
+          alt: "Abata Leaderss Peduli",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "Abata Leaderss Peduli",
+      description: "Platform transparansi penggalangan dana dan pelaporan penyaluran bantuan.",
+      images: [heroImage],
+    }
+  };
+}
 
 export default function RootLayout({
   children

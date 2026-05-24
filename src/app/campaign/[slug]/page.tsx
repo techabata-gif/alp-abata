@@ -11,7 +11,39 @@ import { getCampaignBySlug } from "@/lib/data";
 import { CopyButton } from "@/components/ui/copy-button";
 import { BackButton } from "@/components/ui/back-button";
 
+import type { Metadata } from "next";
+
 export const dynamic = "force-dynamic";
+
+export async function generateMetadata(
+  props: { params: Promise<{ slug: string }> }
+): Promise<Metadata> {
+  const params = await props.params;
+  const data = await getCampaignBySlug(params.slug);
+  
+  if (!data) return {};
+
+  const title = `${data.title} - Abata Leaderss Peduli`;
+  const description = data.description || "Mari berdonasi dan wujudkan kebaikan bersama Abata Leaderss Peduli.";
+  const imageUrl = data.imageUrl || "/logo.png";
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      images: [{ url: imageUrl }],
+      type: "article",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [imageUrl],
+    },
+  };
+}
 
 type CampaignPageProps = {
   params: Promise<{
