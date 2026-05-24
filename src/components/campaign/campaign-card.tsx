@@ -55,7 +55,7 @@ export function CampaignCard({ campaign }: CampaignCardProps) {
           {campaign.shortDescription ?? campaign.description}
         </p>
         <div>
-          <div className="mb-3">
+          <div className="mb-4">
             {progress >= 100 ? (
               <span className="inline-flex items-center rounded-lg bg-mint px-2.5 py-1 text-xs font-semibold text-leaf">
                 Terpenuhi
@@ -66,6 +66,13 @@ export function CampaignCard({ campaign }: CampaignCardProps) {
               </span>
             )}
           </div>
+
+          {isQuantity && (
+            <div className="mb-4 rounded-xl bg-mint/15 border border-mint/30 p-3 flex flex-col">
+               <span className="text-xs font-semibold text-leaf mb-0.5">Biaya per {unit}</span>
+               <span className="text-xl font-bold text-ink">{formatRupiah(campaign.quantityPrice!)}</span>
+            </div>
+          )}
           <div className="mb-2 flex items-center justify-between text-sm">
             <span className="font-semibold text-ink">
               {formatRupiah(campaign.collectedAmount)}

@@ -18,6 +18,7 @@ import {
   Settings,
   Shield,
   ShieldCheck,
+  Tags,
   UserRound,
   Users,
   X
@@ -40,6 +41,7 @@ type AdminShellProps = {
 const navItems = [
   { href: "/admin", label: "Overview", icon: LayoutDashboard },
   { href: "/admin/programs", label: "Program", icon: FolderKanban },
+  { href: "/admin/categories", label: "Kategori", icon: Tags },
   { href: "/admin/campaigns", label: "Campaign", icon: Flag },
   { href: "/admin/donations", label: "Donasi", icon: HandCoins },
   { href: "/admin/reports", label: "Laporan", icon: FileText },
@@ -102,8 +104,8 @@ export function AdminShell({ children, title, description, user }: AdminShellPro
       >
         <div className="flex h-16 items-center justify-between border-b border-white/10 px-5">
           <Link href="/" className="flex items-center gap-3 font-semibold">
-            <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-leaf text-white">
-              <ShieldCheck size={19} aria-hidden="true" />
+            <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-leaf overflow-hidden">
+              <img src="/logo.png" alt="Abata Logo" className="h-full w-full object-contain" />
             </span>
             <span>ALP #Berdampak</span>
           </Link>

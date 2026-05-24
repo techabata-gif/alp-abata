@@ -13,7 +13,7 @@ import { toast } from "sonner";
 
 type CampaignFormValues = z.infer<typeof campaignSchema>;
 
-export function CampaignManager({ initialCampaigns, programs = [] }: { initialCampaigns: any[], programs?: any[] }) {
+export function CampaignManager({ initialCampaigns, programs = [], categories = [] }: { initialCampaigns: any[], programs?: any[], categories?: any[] }) {
   const router = useRouter();
   const [campaigns, setCampaigns] = useState(initialCampaigns);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -21,6 +21,8 @@ export function CampaignManager({ initialCampaigns, programs = [] }: { initialCa
   const [error, setError] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
   const [targetQty, setTargetQty] = useState<string>("");
+  const [filterProgramId, setFilterProgramId] = useState<string>("ALL");
+  const [filterCategoryId, setFilterCategoryId] = useState<string>("ALL");
 
   const {
     register,
@@ -34,8 +36,8 @@ export function CampaignManager({ initialCampaigns, programs = [] }: { initialCa
     defaultValues: {
       title: "",
       slug: "",
-      category: "Donasi Umum",
-      programId: undefined,
+      category: "",
+      programId: "",
       shortDescription: "",
       description: "",
       targetAmount: 50000000,
@@ -54,6 +56,8 @@ export function CampaignManager({ initialCampaigns, programs = [] }: { initialCa
     }
   });
 
+  const watchProgramId = watch("programId");
+  const filteredCategories = categories.filter(c => !c.programId || c.programId === watchProgramId);
   const currentIsQuantity = watch("isQuantity");
   const currentCoverImageUrl = watch("coverImageUrl");
 
@@ -62,8 +66,8 @@ export function CampaignManager({ initialCampaigns, programs = [] }: { initialCa
     reset({
       title: "",
       slug: "",
-      category: "Donasi Umum",
-      programId: undefined,
+      category: "",
+      programId: "",
       shortDescription: "",
       description: "",
       targetAmount: 50000000,
@@ -88,21 +92,16 @@ export function CampaignManager({ initialCampaigns, programs = [] }: { initialCa
   const openEditModal = (campaign: any) => {
     setEditingCampaign(campaign);
     reset({
-      title: campaign.title,
-      slug: campaign.slug,
-      category: campaign.category,
-      programId: campaign.programId || undefined,
-      shortDescription: campaign.shortDescription || "",
-      description: campaign.description,
+      ...campaign,
       targetAmount: Number(campaign.targetAmount),
-      beneficiaryTarget: campaign.beneficiaryTarget || undefined,
-      beneficiaryLabel: campaign.beneficiaryLabel || "",
-      status: campaign.status,
-      endDate: campaign.endDate ? new Date(campaign.endDate).toISOString().split("T")[0] : "",
-      picContact: campaign.picContact || "",
+      beneficiaryTarget: campaign.beneficiaryTarget ? Number(campaign.beneficiaryTarget) : undefined,
+      quantityPrice: campaign.quantityPrice ? Number(campaign.quantityPrice) : undefined,
+      endDate: campaign.endDate ? new Date(campaign.endDate).toISOString().slice(0, 16) : undefined,
+      programId: campaign.programId || "",
+      category: campaign.category || "",
+      shortDescription: campaign.shortDescription || "",
       coverImageUrl: campaign.coverImageUrl || "",
       isQuantity: campaign.isQuantity || false,
-      quantityPrice: campaign.quantityPrice ? Number(campaign.quantityPrice) : undefined,
       quantityUnit: campaign.quantityUnit || "",
       showPicContact: campaign.showPicContact ?? true,
       showDonationGuide: campaign.showDonationGuide ?? true,
@@ -205,22 +204,54 @@ export function CampaignManager({ initialCampaigns, programs = [] }: { initialCa
     }
   };
 
+  const filteredCampaigns = campaigns.filter(c => {
+    const matchProgram = filterProgramId === "ALL" || c.programId === filterProgramId;
+    const matchCategory = filterCategoryId === "ALL" || (c.categoryId === filterCategoryId);
+    return matchProgram && matchCategory;
+  });
+
   return (
     <>
       <section className="rounded-lg border border-ink/10 bg-white shadow-soft">
-        <div className="border-b border-ink/10 px-5 py-4 flex items-center justify-between">
+        <div className="border-b border-ink/10 px-5 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <span className="flex h-8 w-8 items-center justify-center rounded-md bg-mint text-leaf">
               <Flag size={16} />
             </span>
             <h2 className="font-semibold text-ink">Daftar Campaign</h2>
           </div>
-          <button 
-            onClick={openCreateModal}
-            className="flex items-center gap-2 rounded-lg bg-leaf px-3 py-1.5 text-sm font-medium text-white hover:bg-ink transition"
-          >
-            <Plus size={16} /> Tambah Campaign
-          </button>
+          <div className="flex flex-col sm:flex-row gap-3">
+            <select
+              value={filterProgramId}
+              onChange={(e) => {
+                setFilterProgramId(e.target.value);
+                setFilterCategoryId("ALL");
+              }}
+              className="rounded-lg border border-ink/15 px-3 py-1.5 text-sm outline-none focus:border-leaf focus:ring-4 focus:ring-mint bg-cloud/50"
+            >
+              <option value="ALL">Semua Program</option>
+              {programs?.map(p => <option key={p.id} value={p.id}>{p.title}</option>)}
+            </select>
+            
+            <select
+              value={filterCategoryId}
+              onChange={(e) => setFilterCategoryId(e.target.value)}
+              className="rounded-lg border border-ink/15 px-3 py-1.5 text-sm outline-none focus:border-leaf focus:ring-4 focus:ring-mint bg-cloud/50"
+            >
+              <option value="ALL">Semua Kategori</option>
+              {categories
+                ?.filter(c => filterProgramId === "ALL" || !c.programId || c.programId === filterProgramId)
+                .map(c => <option key={c.id} value={c.id}>{c.name}</option>)
+              }
+            </select>
+
+            <button 
+              onClick={openCreateModal}
+              className="flex items-center gap-2 rounded-lg bg-leaf px-3 py-1.5 text-sm font-medium text-white hover:bg-ink transition shrink-0"
+            >
+              <Plus size={16} /> Tambah Campaign
+            </button>
+          </div>
         </div>
         <div className="p-0 overflow-x-auto">
           <table className="w-full text-left text-sm text-ink/80">
@@ -234,7 +265,7 @@ export function CampaignManager({ initialCampaigns, programs = [] }: { initialCa
               </tr>
             </thead>
             <tbody className="divide-y divide-ink/5">
-              {campaigns.map((c) => (
+              {filteredCampaigns.map((c) => (
                 <tr key={c.id} className="hover:bg-cloud/30 transition">
                   <td className="px-5 py-4 align-top">
                     <div className="flex items-start gap-3">
@@ -316,8 +347,8 @@ export function CampaignManager({ initialCampaigns, programs = [] }: { initialCa
                   </td>
                 </tr>
               ))}
-              {campaigns.length === 0 && (
-                <tr><td colSpan={5} className="text-center py-6 text-ink/50">Belum ada campaign.</td></tr>
+              {filteredCampaigns.length === 0 && (
+                <tr><td colSpan={5} className="text-center py-6 text-ink/50">Tidak ada campaign yang ditemukan.</td></tr>
               )}
             </tbody>
           </table>
@@ -361,15 +392,18 @@ export function CampaignManager({ initialCampaigns, programs = [] }: { initialCa
                   <label className="grid gap-2 text-sm font-medium overflow-hidden">
                     Kategori
                     <select
-                      {...register("category")}
+                      {...register("categoryId")}
+                      onChange={(e) => {
+                        const cat = categories.find(c => c.id === e.target.value);
+                        setValue("category", cat ? cat.name : "Donasi Umum");
+                        setValue("categoryId", e.target.value);
+                      }}
                       className="w-full rounded-lg border border-ink/15 px-3 py-3 outline-none focus:border-leaf focus:ring-4 focus:ring-mint bg-white"
                     >
-                      <option value="Donasi Umum">Donasi Umum</option>
-                      <option value="Zakat">Zakat</option>
-                      <option value="Infaq">Infaq</option>
-                      <option value="Qurban">Qurban</option>
-                      <option value="Wakaf">Wakaf</option>
-                      <option value="Kemanusiaan">Kemanusiaan</option>
+                      <option value="">-- Pilih Kategori --</option>
+                      {filteredCategories.map(c => (
+                        <option key={c.id} value={c.id}>{c.name}</option>
+                      ))}
                     </select>
                     {errors.category && <p className="text-xs text-red-600">{errors.category.message}</p>}
                   </label>

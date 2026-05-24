@@ -24,7 +24,7 @@ export async function POST(request: Request) {
   if (check.error) return NextResponse.json({ error: check.error }, { status: check.status });
 
   try {
-    const { title, slug, description } = await request.json();
+    const { title, slug, description, imageUrl, targetAmount, isActive, isFeatured } = await request.json();
 
     if (!title || !slug) {
       return NextResponse.json({ error: "Judul dan slug wajib diisi" }, { status: 400 });
@@ -34,7 +34,11 @@ export async function POST(request: Request) {
       data: {
         title,
         slug,
-        description
+        description,
+        imageUrl: imageUrl || null,
+        targetAmount: targetAmount ? BigInt(targetAmount) : null,
+        isActive: isActive ?? true,
+        isFeatured: isFeatured ?? false
       }
     });
 

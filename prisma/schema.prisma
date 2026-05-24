@@ -20,6 +20,22 @@ model Role {
   @@map("roles")
 }
 
+model Category {
+  id          String     @id @default(uuid())
+  name        String
+  icon        String?
+  description String?
+  programId   String?
+  program   Program?   @relation(fields: [programId], references: [id], onDelete: Cascade)
+  campaigns Campaign[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  @@unique([name, programId])
+  @@index([programId])
+  @@map("categories")
+}
+
 enum CampaignStatus {
   DRAFT
   ACTIVE
@@ -56,12 +72,16 @@ model Program {
   id          String   @id @default(uuid())
   title       String
   slug        String   @unique
-  description String?
-  imageUrl    String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  description  String?
+  imageUrl     String?
+  targetAmount BigInt?
+  isActive     Boolean  @default(true)
+  isFeatured   Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
   campaigns Campaign[]
+  categories Category[]
 
   @@map("programs")
 }
@@ -69,6 +89,7 @@ model Program {
 model Campaign {
   id                 String         @id @default(uuid())
   programId          String?
+  categoryId         String?
   title              String
   slug               String         @unique
   category           String         @default("Donasi Umum")
@@ -95,6 +116,7 @@ model Campaign {
   donations Donation[]
   reports   Report[]
   program   Program?   @relation(fields: [programId], references: [id], onDelete: SetNull)
+  categoryModel Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
 
   @@index([status])
   @@index([slug])

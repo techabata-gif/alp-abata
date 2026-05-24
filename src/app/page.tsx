@@ -18,7 +18,7 @@ import { getLandingData } from "@/lib/data";
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
-  const { campaigns, recentDonations, reports, settings } = await getLandingData();
+  const { campaigns, recentDonations, reports, settings, programs } = await getLandingData();
   const totalCollected = campaigns.reduce(
     (sum, campaign) => sum + campaign.collectedAmount,
     0
@@ -34,69 +34,132 @@ export default async function Home() {
     <>
       <SiteHeader publicDonationEnabled={publicDonationEnabled} />
       <main>
-        <section className="relative min-h-[78vh] overflow-hidden bg-ink text-white">
-          <Image
-            src={settings.landing_hero_image || "/assets/hero-donation.png"}
-            alt=""
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover opacity-55"
-          />
-          <div className="absolute inset-0 bg-ink/58" />
-          <div className="relative mx-auto flex min-h-[78vh] max-w-7xl flex-col justify-center px-4 py-20 sm:px-6 lg:px-8">
+        <section className="relative w-full bg-ink text-white pt-16 pb-20 overflow-hidden">
+          <div className="absolute inset-0 z-0">
+            <Image
+              src={settings.landing_hero_image || "/assets/hero-donation.png"}
+              alt=""
+              fill
+              priority
+              sizes="100vw"
+              className="object-cover opacity-30"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/80 to-transparent"></div>
+          </div>
+          <div className="container relative z-10 mx-auto px-4 lg:px-8 mt-12 max-w-5xl">
             <div className="max-w-3xl">
-              <div className="mb-5 inline-flex items-center gap-2 rounded-lg border border-white/20 bg-white/12 px-3 py-2 text-sm font-semibold backdrop-blur">
-                <ShieldCheck size={17} aria-hidden="true" />
-                {settings.landing_hero_label || "Transparansi dana untuk campaign sosial"}
-              </div>
-              <h1 className="text-5xl font-semibold leading-tight sm:text-6xl lg:text-7xl">
+              <span className="inline-block bg-mint text-leaf text-xs font-bold px-3 py-1 rounded-full mb-4 flex items-center w-fit gap-1.5">
+                <ShieldCheck size={14} aria-hidden="true" />
+                {settings.landing_hero_label || "TRANSAPARANSI DANA SOSIAL"}
+              </span>
+              <h1 className="text-4xl font-bold leading-tight sm:text-5xl lg:text-6xl tracking-tight mb-4 sm:mb-6">
                 {settings.landing_hero_title || "ALP #Berdampak"}
               </h1>
-              <p className="mt-5 max-w-2xl text-lg leading-8 text-white/82 whitespace-pre-line">
+              <div className="prose prose-invert text-base sm:prose-lg text-white/90 max-w-none mb-8 sm:mb-10 leading-relaxed whitespace-pre-line">
                 {settings.landing_hero_description || "Platform penggalangan dana untuk yayasan, sekolah, DKM, komunitas, dan program sosial lain dengan pencatatan manual yang terhubung ke database."}
-              </p>
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              </div>
+
+              <div className="mb-4 flex flex-col gap-3 sm:flex-row relative z-10">
                 {publicDonationEnabled && (
                   <Link
                     href="/donate"
-                    className="inline-flex items-center justify-center gap-2 rounded-lg bg-sun px-5 py-3 text-sm font-semibold text-ink transition hover:bg-white"
+                    className="inline-flex w-full sm:w-auto items-center justify-center px-6 py-3 rounded-xl font-semibold transition bg-[#83c65c] text-ink hover:bg-[#72b04f]"
                   >
-                    <HeartHandshake size={18} aria-hidden="true" />
-                    Mulai donasi
+                    <HeartHandshake size={18} aria-hidden="true" className="mr-2" />
+                    Mulai Donasi
                   </Link>
                 )}
                 <Link
-                  href="#campaign"
-                  className="inline-flex items-center justify-center gap-2 rounded-lg border border-white/30 px-5 py-3 text-sm font-semibold text-white transition hover:bg-white hover:text-ink"
+                  href="#program"
+                  className="inline-flex w-full sm:w-auto items-center justify-center px-6 py-3 rounded-xl font-semibold transition bg-white text-ink hover:bg-cloud shadow-sm"
                 >
-                  Lihat campaign
-                  <ArrowRight size={18} aria-hidden="true" />
+                  Eksplor Program
+                  <ArrowRight size={18} aria-hidden="true" className="ml-2" />
+                </Link>
+                <Link
+                  href="#campaign"
+                  className="inline-flex w-full sm:w-auto items-center justify-center px-6 py-3 rounded-xl font-semibold transition bg-transparent border-2 border-white/30 text-white hover:border-white hover:bg-white/10"
+                >
+                  Lihat Campaign
                 </Link>
               </div>
             </div>
-            <div className="mt-12 grid max-w-4xl gap-3 sm:grid-cols-3">
+
+            {/* Subtle Stats Boxes */}
+            <div className="mt-12 grid max-w-4xl gap-3 sm:grid-cols-2 relative z-10">
               <div className="rounded-lg border border-white/18 bg-white/12 p-4 backdrop-blur">
-                <p className="text-sm text-white/68">Dana terverifikasi</p>
-                <p className="mt-2 text-2xl font-semibold">
-                  {formatRupiah(totalCollected)}
+                <p className="text-sm text-white/68">Program Saat Ini</p>
+                <p className="mt-2 text-2xl font-semibold text-white">
+                  {programs?.length || 0} Program
                 </p>
               </div>
               <div className="rounded-lg border border-white/18 bg-white/12 p-4 backdrop-blur">
-                <p className="text-sm text-white/68">Total donatur</p>
-                <p className="mt-2 text-2xl font-semibold">
-                  {formatNumber(totalDonors)}
-                </p>
-              </div>
-              <div className="rounded-lg border border-white/18 bg-white/12 p-4 backdrop-blur">
-                <p className="text-sm text-white/68">Campaign aktif</p>
-                <p className="mt-2 text-2xl font-semibold">
-                  {formatNumber(campaigns.length)}
+                <p className="text-sm text-white/68">Campaign Aktif</p>
+                <p className="mt-2 text-2xl font-semibold text-white">
+                  {campaigns.length} Campaign
                 </p>
               </div>
             </div>
-          </div>
+            </div>
         </section>
+
+        {programs && programs.length > 0 && (
+          <section id="program" className="bg-cloud py-16 sm:py-20">
+            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+              <div className="text-center mb-10">
+                <p className="text-sm font-semibold uppercase tracking-normal text-leaf">
+                  Program Utama
+                </p>
+                <h2 className="mt-2 text-3xl font-bold text-ink sm:text-4xl">
+                  Program Pilihan Saat Ini
+                </h2>
+                <p className="mt-4 text-lg text-ink/60 max-w-2xl mx-auto">
+                  Pilih program unggulan kami dan temukan berbagai campaign yang dapat Anda bantu.
+                </p>
+              </div>
+              
+              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {programs.map((program) => (
+                  <Link 
+                    key={program.id} 
+                    href={`/p/${program.slug}`}
+                    className="group relative overflow-hidden rounded-2xl bg-white shadow-soft transition hover:shadow-lg flex flex-col h-full border border-ink/5"
+                  >
+                    <div className="relative h-48 w-full bg-ink/5 overflow-hidden">
+                      {program.imageUrl ? (
+                        <Image 
+                          src={program.imageUrl} 
+                          alt={program.title} 
+                          fill 
+                          className="object-cover transition duration-500 group-hover:scale-105" 
+                        />
+                      ) : (
+                        <div className="absolute inset-0 flex items-center justify-center bg-mint/30">
+                          <HeartHandshake size={32} className="text-leaf/50" />
+                        </div>
+                      )}
+                      <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-transparent to-transparent"></div>
+                      <div className="absolute bottom-4 left-4 right-4">
+                        <span className="inline-block bg-white text-ink text-xs font-bold px-2.5 py-1 rounded-md mb-2 shadow-sm">
+                          {program.campaignCount} Campaign
+                        </span>
+                        <h3 className="text-xl font-bold text-white">{program.title}</h3>
+                      </div>
+                    </div>
+                    <div className="p-5 flex flex-col flex-1">
+                      <p className="text-sm text-ink/70 line-clamp-2 mb-4 flex-1">
+                        {program.description ? program.description.replace(/<[^>]+>/g, '') : "Mari bergabung dalam program kebaikan ini."}
+                      </p>
+                      <div className="flex items-center text-leaf font-medium text-sm group-hover:underline">
+                        Lihat Program <ArrowRight size={16} className="ml-1" />
+                      </div>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
 
         <section
           id="campaign"
@@ -112,10 +175,37 @@ export default async function Home() {
               </h2>
             </div>
           </div>
-          <div className="mt-8 grid gap-6 lg:grid-cols-2 xl:grid-cols-3">
-            {campaigns.map((campaign) => (
-              <CampaignCard key={campaign.id} campaign={campaign} />
-            ))}
+          <div className="mt-8 flex flex-col gap-16">
+            {campaigns.length > 0 ? (
+              Array.from(new Map(campaigns.map((c: any) => [c.categoryModel?.id || c.category, c.categoryModel || { name: c.category }])).values()).map((cat: any) => (
+                <div key={cat.id || cat.name}>
+                  <div className="mb-8 border-b border-ink/10 pb-4">
+                    <div className="flex items-center gap-4">
+                      {cat.icon && (
+                        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-white shadow-sm border border-ink/5 text-2xl">
+                          {cat.icon.startsWith("http") ? <img src={cat.icon} alt="" className="w-8 h-8 object-contain" /> : cat.icon}
+                        </div>
+                      )}
+                      <div>
+                        <h3 className="text-2xl font-bold text-blue-900 tracking-tight">{cat.name}</h3>
+                        {cat.description && (
+                          <p className="text-sm text-ink/50 mt-1 font-medium">{cat.description}</p>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="grid gap-6 lg:grid-cols-2 xl:grid-cols-3">
+                    {campaigns
+                      .filter((c: any) => (c.categoryModel?.id || c.category) === (cat.id || cat.name))
+                      .map((campaign) => (
+                        <CampaignCard key={campaign.id} campaign={campaign} />
+                      ))}
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className="text-center py-12 text-ink/50">Belum ada campaign berjalan.</div>
+            )}
           </div>
         </section>
 
@@ -188,18 +278,18 @@ export default async function Home() {
           {[
             {
               icon: BadgeCheck,
-              title: "Verifikasi manual",
-              body: "Donasi publik masuk pending, lalu admin memverifikasi dana masuk."
+              title: "Amanah Terverifikasi",
+              body: "Setiap donasi yang dititipkan akan diverifikasi secara seksama untuk memastikan niat baik Anda tersalurkan dengan tepat dan aman."
             },
             {
               icon: Clock,
-              title: "Progress berkala",
-              body: "Detail campaign melakukan polling API untuk memperbarui nominal terkumpul."
+              title: "Transparansi Real-time",
+              body: "Pantau terus jejak kebaikan Anda. Progress penggalangan dana dan laporan penyaluran diperbarui secara aktual dan transparan."
             },
             {
               icon: Users,
-              title: "Campaign fleksibel",
-              body: "Program dapat dipakai untuk qurban, beasiswa, bantuan bencana, atau dana komunitas."
+              title: "Berdampak Luas",
+              body: "Satu wadah untuk berbagai kepedulian—mulai dari ibadah qurban, beasiswa pendidikan, tanggap bencana, hingga aksi sosial komunitas."
             }
           ].map((item) => {
             const Icon = item.icon;

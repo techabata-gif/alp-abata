@@ -27,7 +27,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="id">
+    <html lang="id" className="scroll-smooth">
       <body className={`${inter.className} bg-cloud text-ink selection:bg-leaf/20`}>
         <NextTopLoader color="#16a34a" showSpinner={false} />
         {children}

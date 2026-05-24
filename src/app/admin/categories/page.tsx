@@ -1,30 +1,29 @@
+import { CategoryManager } from "@/components/admin/category-manager";
+import { prisma } from "@/lib/prisma";
+import { AdminShell } from "@/components/admin/admin-shell";
 import { getUserSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import { AdminShell } from "@/components/admin/admin-shell";
-import { CampaignManager } from "@/components/admin/campaign-manager";
-import { getAdminDashboardData } from "@/lib/data";
-import { prisma } from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
 
-export default async function AdminCampaignsPage() {
+export default async function AdminCategoriesPage() {
   const session = await getUserSession();
   if (!session) redirect("/login");
 
-  const { campaigns } = await getAdminDashboardData();
+  const categories = await prisma.category.findMany({
+    orderBy: { createdAt: "desc" },
+    include: { program: { select: { title: true } }, _count: { select: { campaigns: true } } }
+  });
+
   const programs = await prisma.program.findMany({
     orderBy: { createdAt: "desc" },
     select: { id: true, title: true }
   });
-  
-  const categories = await prisma.category.findMany({
-    orderBy: { name: "asc" }
-  });
 
   return (
     <AdminShell
-      title="Manajemen Campaign"
-      description="Buat dan pantau daftar campaign yang sedang aktif."
+      title="Master Kategori"
+      description="Kelola kategori secara global atau spesifik per program."
       user={{
         name: session.name,
         email: session.email,
@@ -33,7 +32,7 @@ export default async function AdminCampaignsPage() {
       }}
     >
       <div className="mx-auto max-w-6xl">
-        <CampaignManager initialCampaigns={campaigns} programs={programs} categories={categories} />
+        <CategoryManager initialCategories={categories} programs={programs} />
       </div>
     </AdminShell>
   );

@@ -13,12 +13,26 @@ type DonationWithCampaign = Donation & {
   };
 };
 
-export function mapCampaign(campaign: CampaignWithCount): CampaignDTO {
+export function mapCategory(category: any): import("./types").CategoryDTO {
+  if (!category) return null as any;
+  return {
+    id: category.id,
+    name: category.name,
+    icon: category.icon,
+    description: category.description,
+    programId: category.programId
+  };
+}
+
+export function mapCampaign(campaign: any): CampaignDTO {
   return {
     id: campaign.id,
     title: campaign.title,
     slug: campaign.slug,
     category: campaign.category,
+    categoryId: campaign.categoryId,
+    categoryModel: campaign.categoryModel ? mapCategory(campaign.categoryModel) : null,
+    programId: campaign.programId,
     shortDescription: campaign.shortDescription,
     description: campaign.description,
     targetAmount: Number(campaign.targetAmount),
@@ -76,5 +90,27 @@ export function mapReport(report: Report): ReportDTO {
     imageUrl: report.imageUrl,
     amountUsed: report.amountUsed ? Number(report.amountUsed) : null,
     publishedAt: report.publishedAt.toISOString()
+  };
+}
+
+type ProgramWithCount = import("@prisma/client").Program & {
+  _count?: { campaigns: number };
+};
+
+export function mapProgram(program: ProgramWithCount): import("@/lib/types").ProgramDTO {
+  return {
+    id: program.id,
+    title: program.title,
+    slug: program.slug,
+    description: program.description,
+    imageUrl: program.imageUrl,
+    // @ts-ignore
+    targetAmount: program.targetAmount ? Number(program.targetAmount) : null,
+    // @ts-ignore
+    isActive: program.isActive ?? true,
+    // @ts-ignore
+    isFeatured: program.isFeatured ?? false,
+    campaignCount: program._count?.campaigns ?? 0,
+    createdAt: program.createdAt.toISOString()
   };
 }

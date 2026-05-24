@@ -29,6 +29,7 @@ export async function POST(request: Request) {
         title: input.title,
         slug: input.slug,
         category: input.category || "Donasi Umum",
+        categoryId: input.categoryId || null,
         programId: input.programId || null,
         shortDescription: input.shortDescription,
         description: input.description,
