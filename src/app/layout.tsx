@@ -20,6 +20,7 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 
   return {
+    metadataBase: new URL("https://alp.abata.sch.id"),
     title: {
       default: titleStr,
       template: "%s | Abata Leaderss Peduli"

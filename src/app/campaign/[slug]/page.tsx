@@ -28,6 +28,7 @@ export async function generateMetadata(
   const imageUrl = data.campaign.coverImageUrl || "/logo.png";
 
   return {
+    metadataBase: new URL("https://alp.abata.sch.id"),
     title,
     description,
     openGraph: {
