@@ -8,9 +8,16 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export async function generateMetadata(): Promise<Metadata> {
-  const settings = await prisma.appSetting.findMany();
-  const heroImage = settings.find(s => s.key === "landing_hero_image")?.value || "/assets/hero-donation.png";
-  const titleStr = settings.find(s => s.key === "landing_hero_title")?.value || "ALP #Berdampak";
+  let heroImage = "/assets/hero-donation.png";
+  let titleStr = "ALP #Berdampak";
+
+  try {
+    const settings = await prisma.appSetting.findMany();
+    heroImage = settings.find(s => s.key === "landing_hero_image")?.value || heroImage;
+    titleStr = settings.find(s => s.key === "landing_hero_title")?.value || titleStr;
+  } catch (error) {
+    console.warn("Database is unreachable during metadata generation, using fallback settings.");
+  }
 
   return {
     title: {
