@@ -5,6 +5,8 @@ import NextTopLoader from "nextjs-toploader";
 import { prisma } from "@/lib/prisma";
 import "./globals.css";
 
+import { getOptimizedOpenGraphImage } from "@/lib/utils";
+
 const inter = Inter({ subsets: ["latin"] });
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -18,6 +20,8 @@ export async function generateMetadata(): Promise<Metadata> {
   } catch (error) {
     console.warn("Database is unreachable during metadata generation, using fallback settings.");
   }
+
+  const optimizedHeroImage = getOptimizedOpenGraphImage(heroImage);
 
   return {
     metadataBase: new URL("https://alp.abata.sch.id"),
@@ -33,7 +37,7 @@ export async function generateMetadata(): Promise<Metadata> {
       siteName: "Abata Leaderss Peduli",
       images: [
         {
-          url: heroImage,
+          url: optimizedHeroImage,
           width: 1200,
           height: 630,
           alt: "Abata Leaderss Peduli",
@@ -44,7 +48,7 @@ export async function generateMetadata(): Promise<Metadata> {
       card: "summary_large_image",
       title: "Abata Leaderss Peduli",
       description: "Platform transparansi penggalangan dana dan pelaporan penyaluran bantuan.",
-      images: [heroImage],
+      images: [optimizedHeroImage],
     }
   };
 }

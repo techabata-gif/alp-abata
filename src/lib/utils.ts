@@ -48,3 +48,16 @@ export function slugify(input: string) {
     .replace(/-+/g, "-")
     .replace(/^-|-$/g, "");
 }
+
+export function getOptimizedOpenGraphImage(url: string | null | undefined): string {
+  if (!url) return "/assets/hero-donation.png"; // or any default
+  
+  // WhatsApp has a 300KB limit for OpenGraph images, and dimensions should be ~1200x630.
+  // If the image is hosted on Cloudinary, we inject transformation parameters.
+  if (url.includes("res.cloudinary.com") && url.includes("/upload/")) {
+    // If it already has transformations, we could replace them, but usually they are raw uploads.
+    return url.replace("/upload/", "/upload/c_fill,w_1200,h_630,q_auto,f_jpg/");
+  }
+
+  return url;
+}

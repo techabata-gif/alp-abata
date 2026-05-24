@@ -13,6 +13,8 @@ import { BackButton } from "@/components/ui/back-button";
 
 import type { Metadata } from "next";
 
+import { getOptimizedOpenGraphImage } from "@/lib/utils";
+
 export const dynamic = "force-dynamic";
 
 export async function generateMetadata(
@@ -25,7 +27,7 @@ export async function generateMetadata(
 
   const title = `${data.campaign.title} - Abata Leaderss Peduli`;
   const description = data.campaign.shortDescription || "Mari berdonasi dan wujudkan kebaikan bersama Abata Leaderss Peduli.";
-  const imageUrl = data.campaign.coverImageUrl || "/logo.png";
+  const imageUrl = getOptimizedOpenGraphImage(data.campaign.coverImageUrl || "/logo.png");
 
   return {
     metadataBase: new URL("https://alp.abata.sch.id"),

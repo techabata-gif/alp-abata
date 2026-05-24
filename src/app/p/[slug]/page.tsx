@@ -8,6 +8,8 @@ import { prisma } from "@/lib/prisma";
 
 import type { Metadata } from "next";
 
+import { getOptimizedOpenGraphImage } from "@/lib/utils";
+
 export const dynamic = "force-dynamic";
 
 export async function generateMetadata(
@@ -20,7 +22,7 @@ export async function generateMetadata(
 
   const title = `${data.program.title} - Abata Leaderss Peduli`;
   const description = data.program.description || "Mari berpartisipasi dan wujudkan program kebaikan bersama Abata Leaderss Peduli.";
-  const imageUrl = data.program.imageUrl || "/logo.png";
+  const imageUrl = getOptimizedOpenGraphImage(data.program.imageUrl || "/logo.png");
 
   return {
     metadataBase: new URL("https://alp.abata.sch.id"),
