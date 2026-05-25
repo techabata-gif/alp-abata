@@ -35,6 +35,18 @@ export default async function AdminBuyingPowerPage() {
     }))
   }));
 
+  // Fetch Cloud State (Private per-User) via SSR
+  let initialState = null;
+  try {
+    const key = `buying_power_user_${session.id}`;
+    const stateRow = await prisma.appSetting.findUnique({ where: { key } });
+    if (stateRow) {
+      initialState = JSON.parse(stateRow.value);
+    }
+  } catch (e) {
+    console.error("Failed to parse initial state", e);
+  }
+
   return (
     <AdminShell
       title="Buying Power Calculator"
@@ -47,7 +59,7 @@ export default async function AdminBuyingPowerPage() {
       }}
     >
       <div className="mx-auto max-w-6xl">
-        <BuyingPowerClient programs={programs} />
+        <BuyingPowerClient programs={programs} initialState={initialState} />
       </div>
     </AdminShell>
   );

@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import { formatRupiah } from "@/lib/utils";
-import { Calculator, AlertCircle, CheckCircle2, Package, SearchX, Plus, Trash2, Minus, Download, FileSpreadsheet, FileText, RotateCcw } from "lucide-react";
+import { Calculator, AlertCircle, CheckCircle2, Package, SearchX, Plus, Trash2, Minus, Download, FileSpreadsheet, FileText, RotateCcw, Cloud, CloudOff, Loader2 } from "lucide-react";
 import * as XLSX from 'xlsx';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
@@ -37,45 +37,58 @@ type Program = {
 
 type Props = {
   programs: Program[];
+  initialState?: any;
 };
 
-export function BuyingPowerClient({ programs }: Props) {
-  const [selectedProgramId, setSelectedProgramId] = useState<string>(programs[0]?.id || "");
-  const [activePackages, setActivePackages] = useState<Record<string, boolean>>({});
-  const [quantities, setQuantities] = useState<Record<string, number>>({});
-  const [customPackagesByProgram, setCustomPackagesByProgram] = useState<Record<string, CustomPackage[]>>({});
-  const [loaded, setLoaded] = useState(false);
+export function BuyingPowerClient({ programs, initialState }: Props) {
+  const isValidInitialProgram = initialState?.selectedProgramId && programs.find(p => p.id === initialState.selectedProgramId);
+  const defaultProgramId = isValidInitialProgram ? initialState.selectedProgramId : (programs[0]?.id || "");
+
+  const [selectedProgramId, setSelectedProgramId] = useState<string>(defaultProgramId);
+  const [activePackages, setActivePackages] = useState<Record<string, boolean>>(initialState?.activePackages || {});
+  const [quantities, setQuantities] = useState<Record<string, number>>(initialState?.quantities || {});
+  const [customPackagesByProgram, setCustomPackagesByProgram] = useState<Record<string, CustomPackage[]>>(initialState?.customPackagesByProgram || {});
+  const [syncStatus, setSyncStatus] = useState<'idle' | 'syncing' | 'saved' | 'error'>('idle');
   
-  const STORAGE_KEY = "admin_buying_power_v3";
+  const isFirstLoad = useRef(true);
+  const debounceTimer = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved) {
+    if (isFirstLoad.current) {
+      isFirstLoad.current = false;
+      return;
+    }
+
+    setSyncStatus('syncing');
+    if (debounceTimer.current) clearTimeout(debounceTimer.current);
+
+    debounceTimer.current = setTimeout(async () => {
       try {
-        const parsed = JSON.parse(saved);
-        if (parsed.activePackages) setActivePackages(parsed.activePackages);
-        if (parsed.quantities) setQuantities(parsed.quantities);
-        if (parsed.customPackagesByProgram) setCustomPackagesByProgram(parsed.customPackagesByProgram);
-        if (parsed.selectedProgramId && programs.find(p => p.id === parsed.selectedProgramId)) {
-          setSelectedProgramId(parsed.selectedProgramId);
+        const res = await fetch("/api/admin/buying-power/state", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            selectedProgramId,
+            activePackages,
+            quantities,
+            customPackagesByProgram
+          })
+        });
+        if (res.ok) {
+          setSyncStatus('saved');
+          setTimeout(() => setSyncStatus('idle'), 2000);
+        } else {
+          setSyncStatus('error');
         }
       } catch (e) {
-        console.error("Failed to parse local storage", e);
+        setSyncStatus('error');
       }
-    }
-    setLoaded(true);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    }, 1500);
 
-  useEffect(() => {
-    if (!loaded) return;
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({
-      selectedProgramId,
-      activePackages,
-      quantities,
-      customPackagesByProgram
-    }));
-  }, [selectedProgramId, activePackages, quantities, customPackagesByProgram, loaded]);
+    return () => {
+      if (debounceTimer.current) clearTimeout(debounceTimer.current);
+    };
+  }, [selectedProgramId, activePackages, quantities, customPackagesByProgram]);
 
   const customPackages = useMemo(() => {
     if (!selectedProgramId) return [];
@@ -205,12 +218,19 @@ export function BuyingPowerClient({ programs }: Props) {
     }));
   }
 
-  function handleResetAll() {
+  async function handleResetAll() {
     if (!confirm("Apakah Anda yakin ingin mereset SELURUH data simulasi ke setelan awal? Data yang dihapus tidak dapat dikembalikan.")) return;
     setActivePackages({});
     setQuantities({});
     setCustomPackagesByProgram({});
-    localStorage.removeItem(STORAGE_KEY);
+    
+    try {
+      await fetch("/api/admin/buying-power/state", { method: "DELETE" });
+      setSyncStatus('saved');
+      setTimeout(() => setSyncStatus('idle'), 2000);
+    } catch (e) {
+      console.error("Gagal mereset data di awan", e);
+    }
   }
 
   function getExportDataGrouped() {
@@ -447,11 +467,16 @@ export function BuyingPowerClient({ programs }: Props) {
             </select>
           </div>
           
-          <div className="flex items-center gap-2 rounded-lg bg-mint/50 px-4 py-3 sm:w-auto">
-            <Calculator className="text-leaf" size={24} />
-            <div>
-              <p className="text-xs font-semibold uppercase text-ink/60">Total Dana (Buying Power)</p>
-              <p className="text-lg font-bold text-leaf">{formatRupiah(buyingPower)}</p>
+          <div className="flex items-center gap-3 rounded-lg bg-mint/50 px-4 py-3 sm:w-auto min-w-[240px]">
+            <Calculator className="text-leaf shrink-0" size={28} />
+            <div className="flex flex-col">
+              <div className="flex items-center gap-2">
+                <p className="text-xs font-semibold uppercase text-ink/60">Total Dana (Buying Power)</p>
+                {syncStatus === 'syncing' && <span title="Menyinkronkan ke awan..."><Loader2 size={12} className="animate-spin text-leaf" /></span>}
+                {syncStatus === 'saved' && <span title="Tersimpan di awan"><Cloud size={12} className="text-leaf" /></span>}
+                {syncStatus === 'error' && <span title="Gagal menyinkronkan"><CloudOff size={12} className="text-red-500" /></span>}
+              </div>
+              <p className="text-xl font-bold text-leaf leading-tight">{formatRupiah(buyingPower)}</p>
             </div>
           </div>
         </div>
