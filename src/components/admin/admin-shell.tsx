@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import {
   BarChart3,
   Bell,
+  Calculator,
   ChevronDown,
   FileText,
   Flag,
@@ -47,6 +48,7 @@ const navItems = [
   { href: "/admin/reports", label: "Laporan", icon: FileText },
   { href: "/admin/users", label: "Pengguna", icon: Users },
   { href: "/admin/roles", label: "Hak Akses", icon: Shield },
+  { href: "/admin/buying-power", label: "Buying Power", icon: Calculator },
   { href: "/admin/settings", label: "Pengaturan", icon: Settings }
 ];
 
@@ -60,7 +62,10 @@ export function AdminShell({ children, title, description, user }: AdminShellPro
 
   async function submitPassword(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const formData = new FormData(event.currentTarget);
+    if (isSubmittingPassword) return; // Prevent double submission
+    
+    const form = event.currentTarget; // Grab form reference synchronously
+    const formData = new FormData(form);
     const currentPassword = String(formData.get("currentPassword") ?? "");
     const nextPassword = String(formData.get("newPassword") ?? "");
     const confirmPassword = String(formData.get("confirmPassword") ?? "");
@@ -96,9 +101,10 @@ export function AdminShell({ children, title, description, user }: AdminShellPro
       }
 
       setPasswordMessage({ type: 'success', text: "Password berhasil diperbarui." });
-      event.currentTarget.reset();
+      form.reset(); // Use the safely stored reference
     } catch (error) {
-      setPasswordMessage({ type: 'error', text: "Terjadi kesalahan server." });
+      console.error("Frontend password submit error:", error);
+      setPasswordMessage({ type: 'error', text: "Terjadi kesalahan server atau jaringan." });
     } finally {
       setIsSubmittingPassword(false);
     }

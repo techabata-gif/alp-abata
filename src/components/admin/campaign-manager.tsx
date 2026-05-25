@@ -371,16 +371,16 @@ export function CampaignManager({ initialCampaigns, programs = [], categories = 
             {/* Scrollable Form Content */}
             <div className="overflow-y-auto p-5 grow">
               <form id="campaignForm" onSubmit={handleSubmit(onSubmit, onError)} className="grid gap-4">
-                <label className="grid gap-2 text-sm font-medium">
-                  Judul
-                  <input
-                    {...register("title")}
-                    className="w-full rounded-lg border border-ink/15 px-3 py-3 outline-none focus:border-leaf focus:ring-4 focus:ring-mint"
-                  />
-                  {errors.title && <span className="text-xs text-red-600">{errors.title.message}</span>}
-                </label>
-
                 <div className="grid gap-4 sm:grid-cols-2">
+                  <label className="grid gap-2 text-sm font-medium">
+                    Judul
+                    <input
+                      {...register("title")}
+                      className="w-full rounded-lg border border-ink/15 px-3 py-3 outline-none focus:border-leaf focus:ring-4 focus:ring-mint"
+                    />
+                    {errors.title && <span className="text-xs text-red-600">{errors.title.message}</span>}
+                  </label>
+                  
                   <label className="grid gap-2 text-sm font-medium overflow-hidden">
                     Slug
                     <input
@@ -389,6 +389,22 @@ export function CampaignManager({ initialCampaigns, programs = [], categories = 
                       placeholder="otomatis dari judul"
                     />
                   </label>
+                </div>
+
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <label className="grid gap-2 text-sm font-medium overflow-hidden">
+                    Program (Opsional)
+                    <select
+                      {...register("programId")}
+                      className="w-full rounded-lg border border-ink/15 px-3 py-3 outline-none focus:border-leaf focus:ring-4 focus:ring-mint bg-white"
+                    >
+                      <option value="">-- Tidak ada Program --</option>
+                      {programs.map(p => (
+                        <option key={p.id} value={p.id}>{p.title}</option>
+                      ))}
+                    </select>
+                  </label>
+
                   <label className="grid gap-2 text-sm font-medium overflow-hidden">
                     Kategori
                     <select
@@ -408,19 +424,6 @@ export function CampaignManager({ initialCampaigns, programs = [], categories = 
                     {errors.category && <p className="text-xs text-red-600">{errors.category.message}</p>}
                   </label>
                 </div>
-
-                <label className="grid gap-2 text-sm font-medium overflow-hidden">
-                  Program (Opsional)
-                  <select
-                    {...register("programId")}
-                    className="w-full rounded-lg border border-ink/15 px-3 py-3 outline-none focus:border-leaf focus:ring-4 focus:ring-mint bg-white"
-                  >
-                    <option value="">-- Tidak ada Program --</option>
-                    {programs.map(p => (
-                      <option key={p.id} value={p.id}>{p.title}</option>
-                    ))}
-                  </select>
-                </label>
 
                 <div className="flex flex-col sm:flex-row sm:items-center gap-3 rounded-lg border border-ink/10 bg-cloud px-4 py-4 text-sm font-medium shadow-sm">
                   <div className="flex items-center justify-between w-full gap-3">

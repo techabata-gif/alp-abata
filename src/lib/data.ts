@@ -175,27 +175,32 @@ export async function getDonationCampaignOptions() {
   }
 }
 
-export async function getAdminDashboardData() {
+export async function getAdminDashboardData(programId?: string) {
   noStore();
 
   try {
+    const campaignWhere = programId ? { programId } : {};
+    const donationWhere = programId ? { campaign: { programId } } : {};
+
     const [campaigns, donations, verifiedDonors, totalTransactions, pendingDonations] =
       await Promise.all([
         prisma.campaign.findMany({
+          where: campaignWhere,
           orderBy: { createdAt: "desc" },
           include: { _count: { select: { donations: true } } }
         }),
         prisma.donation.findMany({
+          where: donationWhere,
           orderBy: { createdAt: "desc" },
           take: 20,
           include: { campaign: { select: { title: true } } }
         }),
         prisma.donation.findMany({
-          where: { status: "VERIFIED" },
+          where: { ...donationWhere, status: "VERIFIED" },
           select: { donorName: true }
         }),
-        prisma.donation.count(),
-        prisma.donation.count({ where: { status: "PENDING" } })
+        prisma.donation.count({ where: donationWhere }),
+        prisma.donation.count({ where: { ...donationWhere, status: "PENDING" } })
       ]);
 
     const uniqueDonors = new Set(
