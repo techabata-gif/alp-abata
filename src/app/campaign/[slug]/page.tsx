@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, ArrowRight, CalendarDays, FileText, Users } from "lucide-react";
+import { ArrowLeft, ArrowRight, CalendarDays, FileText, Users, ClipboardList } from "lucide-react";
 import { LiveProgress } from "@/components/campaign/live-progress";
 import { StatusBadge } from "@/components/ui/status-badge";
 import { SiteFooter } from "@/components/layout/site-footer";
@@ -69,6 +69,11 @@ export default async function CampaignPage({ params }: CampaignPageProps) {
   let banks = [];
   try {
     banks = settings?.bank_accounts ? JSON.parse(settings.bank_accounts) : [];
+  } catch (e) {}
+
+  let paymentSteps = [];
+  try {
+    paymentSteps = settings?.payment_steps ? JSON.parse(settings.payment_steps) : [];
   } catch (e) {}
   const alertText = settings?.donation_alert_text || "Silakan hubungi WhatsApp di bawah ini untuk informasi donasi dan konfirmasi:";
   const whatsappNumber = campaign.picContact;
@@ -219,6 +224,17 @@ export default async function CampaignPage({ params }: CampaignPageProps) {
                   <p className="text-sm font-medium leading-relaxed text-amber-900 mb-4 whitespace-pre-wrap">
                     {alertText}
                   </p>
+
+                  {campaign.showPicContact && whatsappLink && (
+                    <a
+                      href={whatsappLink}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-[#25D366] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[#20bd5a] mb-4"
+                    >
+                      Hubungi via WhatsApp
+                    </a>
+                  )}
                   
                   {campaign.showDonationGuide && (
                     <div className="mb-4 rounded-md bg-white p-4 border border-sun/20 text-sm">
@@ -230,15 +246,41 @@ export default async function CampaignPage({ params }: CampaignPageProps) {
                     </div>
                   )}
 
-                  {campaign.showPicContact && whatsappLink && (
-                    <a
-                      href={whatsappLink}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-[#25D366] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[#20bd5a] mb-4"
-                    >
-                      Hubungi via WhatsApp
-                    </a>
+                  {paymentSteps.length > 0 && (
+                    <details className="mb-4 group [&_summary::-webkit-details-marker]:hidden">
+                      <summary className="flex items-center justify-between cursor-pointer font-bold text-sm text-ink bg-white p-4 rounded-md border border-sun/20 shadow-sm select-none outline-none hover:bg-cloud/50 transition">
+                        <span className="flex items-center gap-2">
+                          <ClipboardList size={18} className="text-ink/70" />
+                          <span>Tata Cara Pembayaran</span>
+                        </span>
+                        <svg
+                          className="h-4 w-4 text-ink/50 transition-transform duration-200 group-open:-rotate-180"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </summary>
+                      
+                      <div className="relative mt-2 p-5 bg-white rounded-md border border-sun/20">
+                        <div className="absolute left-[35px] top-8 bottom-8 w-0.5 bg-leaf/20"></div>
+                        <div className="space-y-6 relative">
+                          {paymentSteps.map((step: any, idx: number) => (
+                            <div key={step.id || idx} className="flex gap-4 items-start">
+                              <div className="relative z-10 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-leaf text-white text-sm font-bold shadow-sm ring-4 ring-white">
+                                {idx + 1}
+                              </div>
+                              <div className="pt-1">
+                                <h4 className="text-sm font-bold text-ink">{step.title}</h4>
+                                {step.description && <p className="mt-1 text-sm text-ink/70 leading-relaxed">{step.description}</p>}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </details>
                   )}
 
                   {campaign.showBankAccounts && banks.length > 0 && (

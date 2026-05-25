@@ -2,7 +2,9 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { ShieldCheck, Loader2 } from "lucide-react";
+import { ShieldCheck, Loader2, ArrowLeft } from "lucide-react";
+import Link from "next/link";
+
 
 export default function LoginPage() {
   const router = useRouter();
@@ -41,9 +43,13 @@ export default function LoginPage() {
     <div className="flex min-h-screen items-center justify-center bg-cloud px-4">
       <div className="w-full max-w-md rounded-xl border border-ink/10 bg-white p-6 shadow-soft sm:p-8">
         <div className="flex flex-col items-center gap-3">
-          <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-leaf shadow-sm overflow-hidden">
+          <Link 
+            href="/" 
+            className="flex h-12 w-12 items-center justify-center rounded-xl bg-leaf shadow-sm overflow-hidden hover:opacity-90 transition"
+            title="Kembali ke Halaman Utama"
+          >
             <img src="/logo.png" alt="Abata Logo" className="h-full w-full object-contain" />
-          </span>
+          </Link>
           <h1 className="text-2xl font-bold text-ink">Admin Login</h1>
           <p className="text-sm text-ink/60">Masuk untuk mengelola platform</p>
         </div>
@@ -86,6 +92,16 @@ export default function LoginPage() {
             {loading ? <Loader2 className="animate-spin" size={18} /> : "Login"}
           </button>
         </form>
+
+        <div className="mt-6 flex justify-center">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-1.5 text-sm font-medium text-ink/50 hover:text-leaf transition-colors"
+          >
+            <ArrowLeft size={16} />
+            Kembali ke Halaman Utama
+          </Link>
+        </div>
       </div>
     </div>
   );
