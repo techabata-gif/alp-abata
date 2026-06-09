@@ -3,9 +3,6 @@
 import { useState, useMemo, useEffect, useRef } from "react";
 import { formatRupiah } from "@/lib/utils";
 import { Calculator, AlertCircle, CheckCircle2, Package, SearchX, Plus, Trash2, Minus, Download, FileSpreadsheet, FileText, RotateCcw, Cloud, CloudOff, Loader2 } from "lucide-react";
-import * as XLSX from 'xlsx';
-import jsPDF from 'jspdf';
-import autoTable from 'jspdf-autotable';
 
 type Category = {
   id: string;
@@ -297,8 +294,9 @@ export function BuyingPowerClient({ programs, initialState }: Props) {
     return `${dateStr} ${timeStr}`;
   }
 
-  function handleExportExcel() {
+  async function handleExportExcel() {
     if (!selectedProgram) return;
+    const XLSX = await import('xlsx');
     const { groups, totalQty, totalInvest } = getExportDataGrouped();
     if (groups.length === 0) return alert("Belum ada paket yang dipilih untuk diexport.");
 
@@ -361,8 +359,10 @@ export function BuyingPowerClient({ programs, initialState }: Props) {
     XLSX.writeFile(wb, `BuyingPower_${selectedProgram.title.replace(/\s+/g, '_')}_${new Date().getTime()}.xlsx`);
   }
 
-  function handleExportPDF() {
+  async function handleExportPDF() {
     if (!selectedProgram) return;
+    const { default: jsPDF } = await import('jspdf');
+    const { default: autoTable } = await import('jspdf-autotable');
     const { groups, totalQty, totalInvest } = getExportDataGrouped();
     if (groups.length === 0) return alert("Belum ada paket yang dipilih untuk diexport.");
 
