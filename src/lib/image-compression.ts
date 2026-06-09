@@ -1,4 +1,3 @@
-import imageCompression from "browser-image-compression";
 
 export async function compressImage(file: File): Promise<File> {
   // If it's not an image or very small, just return it
@@ -13,6 +12,7 @@ export async function compressImage(file: File): Promise<File> {
   };
 
   try {
+    const { default: imageCompression } = await import("browser-image-compression");
     const compressedBlob = await imageCompression(file, options);
     // Convert Blob back to File
     return new File([compressedBlob], file.name, {
